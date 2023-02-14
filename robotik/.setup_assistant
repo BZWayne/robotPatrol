@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: robot_urdf
+    relative_path: urdf/m2wr_arm3.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/m2wr.srdf
+  CONFIG:
+    author_name: Bauyrzhan Zhakanov
+    author_email: bauyrzhan.zhakanov@gmail.com
+    generated_timestamp: 1671010258

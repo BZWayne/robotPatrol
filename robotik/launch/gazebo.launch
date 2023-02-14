@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="paused" default="false"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="urdf_path" default="$(find assignment2)/urdf/robot.urdf"/>
+  <arg name="world" default="$(find assignment2)/worlds/assignment_world.world"/>
+
+
+  <!-- startup simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" default="$(arg world)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+  </include>
+
+  <!-- Spawn the robot -->
+  <param name="robot_description" textfile="$(arg urdf_path)" />
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -model robot -param robot_description -x -6.0 -y 11.0 -z 0.05 -Y 3.14"/>
+
+  <include file="$(find robotik)/launch/ros_controllers.launch"/>
+
+</launch>
