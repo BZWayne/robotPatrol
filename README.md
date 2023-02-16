@@ -1,6 +1,6 @@
 # Robot Patrol
 
-## Video representation and [Documentation]()
+## Video representation and [Documentation](https://bzwayne.github.io/https://github.com/BZWayne/robotPatrol/blob/main/assignment2/docs/_build/html/_modules/index.html)
 
 ## 1. Introduction 
 The following is the Experimental Robotics course project description, where a robot is utilized to patrol corridors through the implementation of ontology, smach, and ros. Additionally, the project includes the simulation of the robot's behavior. The project involves the following tasks:
@@ -29,7 +29,7 @@ Within the given setting, there are four distinct rooms labeled as R1, R2, R3, a
 
 
 ### Senario
-A 2D environment is being monitored by a surveillance robot. Initially, the robot is stationed in room E and awaits until the entire map has been loaded into the ontology by scanning the arUco markers. Afterward, the robot continually traverses between corridors C1 and C2. Once the robot's battery is low, it must travel to the charging station located at E. If any urgent rooms require attention, the robot must visit them before resuming its routine behavior of moving between corridors.
+A 2D environment is being monitored by a surveillance robot. Initially, the robot is stationed in room E and awaits until the entire map has been loaded into the ontology by scanning the arUco markers. Afterward, the robot continually traverses between corridors. Once the robot's battery is low, it must travel to the charging station located at E. If any urgent rooms require attention, the robot must visit them before resuming its routine behavior of moving between corridors.
   
 ## 2. Discription of software architecture 
  
