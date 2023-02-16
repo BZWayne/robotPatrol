@@ -20,15 +20,13 @@ Protogé is used for building the ontology [ARMOR](https://github.com/EmaroLab/a
 ### Environment
 Within the given setting, there are four distinct rooms labeled as R1, R2, R3, and R4, along with two corridors labeled as C1 and C2. Additionally, there is a waiting room known as "E," which was utilized prior to creating the map. The environment also contains a charging station and seven doors identified as D1 to D7.
 
-#### Topological Map
-<p align="center">
-<img src="https://github.com/BZWayne/robotPatrol/blob/main/images/enviroment_ontology.png" width="1000" title="gazebo">
+#### Topological Map and GAZEBO simulation
+
+<p float="center">
+  <img src="https://github.com/BZWayne/robotPatrol/blob/main/images/enviroment_ontology.png" width="340" />
+  <img src="https://github.com/BZWayne/robotPatrol/blob/main/images/environment.png" width="600" /> 
 </p>
 
-#### GAZEBO simulation
-<p align="center">
-<img src="https://github.com/BZWayne/robotPatrol/blob/main/images/environment.png" width="1000" title="gazebo">
-</p>
 
 ### Senario
 A 2D environment is being monitored by a surveillance robot. Initially, the robot is stationed in room E and awaits until the entire map has been loaded into the ontology by scanning the arUco markers. Afterward, the robot continually traverses between corridors C1 and C2. Once the robot's battery is low, it must travel to the charging station located at E. If any urgent rooms require attention, the robot must visit them before resuming its routine behavior of moving between corridors.
