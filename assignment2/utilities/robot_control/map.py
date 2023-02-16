@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 """
-.. module:: map
-    :platform: Unix
-    :synopsis: the map python script
-.. moduleauthor:: Bauyrzhan Zhakanov <bauyrzhan.zhakanov@gmail.com>
+	.. module:: map
+		:platform: Unix
+		:synopsis: the map python script
+	.. moduleauthor:: Bauyrzhan Zhakanov <bauyrzhan.zhakanov@gmail.com>
 
-Uses Service:
-    /state/get_battery  
-    /state/get_pose
+	Uses Service:
+		/state/get_battery  
+		/state/get_pose
 
-The Topological Map is established utilizing the methods from the 
-ArmorClient and the incomplete Ontology file, 
-topological_map.owl, which only holds class definitions.
+	Map is established utilizing the methods from the 
+	ArmorClient and the incomplete Ontology file, 
+	topological_map.owl, which only holds class definitions.
 """
 
 import rospy

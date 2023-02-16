@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>src.robot_states &#8212; robotPatrol 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">robotPatrol 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">src.robot_states</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for src.robot_states</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: robot_states</span>
+<span class="sd">    :platform: Unix</span>
+<span class="sd">    :synopsis: the robot_states python script </span>
+<span class="sd">    </span>
+<span class="sd">.. moduleauthor:: Bauyrzhan Zhakanov &lt;bauyrzhan.zhakanov@gmail.com&gt;</span>
+
+<span class="sd">Subscribes to :</span>
+<span class="sd">    /odom</span>
+<span class="sd">Uses Service:</span>
+<span class="sd">    /state/set_battery_level</span>
+<span class="sd">    /state/get_battery_level </span>
+<span class="sd">    /state/get_pose </span>
+<span class="sd">    /state/set_base_movement_state  </span>
+<span class="sd">    /state/get_base_movement_state</span>
+<span class="sd">    </span>
+<span class="sd">Robot states is the script where the robot condition will be identified such as battery level, base movement, odometry information,</span>
+<span class="sd">its pose information. </span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">from</span> <span class="nn">robot_control</span> <span class="kn">import</span> <span class="n">logs_mapper</span> <span class="k">as</span> <span class="n">anm</span>
+<span class="kn">from</span> <span class="nn">assignment2.msg</span> <span class="kn">import</span> <span class="n">RoomConnection</span><span class="p">,</span> <span class="n">Point</span>
+<span class="kn">from</span> <span class="nn">assignment2.srv</span> <span class="kn">import</span> <span class="n">GetPose</span><span class="p">,</span> <span class="n">GetPoseResponse</span><span class="p">,</span> <span class="n">GetBatteryLevel</span><span class="p">,</span> <span class="n">SetBatteryLevel</span><span class="p">,</span> <span class="n">GetBatteryLevelResponse</span><span class="p">,</span> <span class="n">SetBatteryLevelResponse</span>
+<span class="kn">from</span> <span class="nn">assignment2.srv</span> <span class="kn">import</span> <span class="n">GetBaseMovementState</span><span class="p">,</span> <span class="n">GetBaseMovementStateResponse</span><span class="p">,</span> <span class="n">SetBaseMovementState</span><span class="p">,</span> <span class="n">SetBaseMovementStateResponse</span>
+<span class="kn">from</span> <span class="nn">nav_msgs.msg</span> <span class="kn">import</span> <span class="n">Odometry</span>
+
+<span class="c1"># A tag for identifying logs producer.</span>
+<span class="n">node_fsm</span> <span class="o">=</span> <span class="n">anm</span><span class="o">.</span><span class="n">NODE_ROBOT_STATE</span>
+
+<div class="viewcode-block" id="RobotState"><a class="viewcode-back" href="../../index.html#src.robot_states.RobotState">[docs]</a><span class="k">class</span> <span class="nc">RobotState</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes the &quot;robot-states&quot; node to provide crucial information about the robot&#39;s current </span>
+<span class="sd">    state, such as its pose, battery level, and base movement state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the &quot;robot-states&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Initialize a robot </span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">NODE_ROBOT_STATE</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">rospy</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pose</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_battery_level</span> <span class="o">=</span> <span class="mi">1000</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_movement_state</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Define services.</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_POSE</span><span class="p">,</span> <span class="n">GetPose</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pose</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_BATTERY_LEVEL</span><span class="p">,</span> <span class="n">GetBatteryLevel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_battery_level</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BATTERY_LEVEL</span><span class="p">,</span> <span class="n">SetBatteryLevel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_battery_level</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BASE_MOVEMENT_STATE</span><span class="p">,</span> <span class="n">SetBaseMovementState</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_base_movement_state</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_BASE_MOVEMENT_STATE</span><span class="p">,</span> <span class="n">GetBaseMovementState</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_base_movement_state</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s2">&quot;odom&quot;</span><span class="p">,</span> <span class="n">Odometry</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">odom_callback</span><span class="p">)</span>
+        <span class="c1"># Logs</span>
+
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Initialise a robot `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">NODE_ROBOT_STATE</span><span class="si">}</span><span class="s1">` with services `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_POSE</span><span class="si">}</span><span class="s1">` and &#39;</span>
+                   <span class="sa">f</span><span class="s1">&#39; `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_BATTERY_LEVEL</span><span class="si">}</span><span class="s1">` and `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BATTERY_LEVEL</span><span class="si">}</span><span class="s1">` and &#39;</span>
+                   <span class="sa">f</span><span class="s1">&#39; `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_BASE_MOVEMENT_STATE</span><span class="si">}</span><span class="s1">` and `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BASE_MOVEMENT_STATE</span><span class="si">}</span><span class="s1">`.&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># print(log_msg)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+
+        <span class="c1">### execution</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span> 
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_movement_state</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_battery_level</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Executed&quot;</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RobotState.odom_callback"><a class="viewcode-back" href="../../index.html#src.robot_states.RobotState.odom_callback">[docs]</a>    <span class="k">def</span> <span class="nf">odom_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback function for the /odom topic subscriber that updates the robot&#39;s current pose in the robot-states node.</span>
+<span class="sd">        The argument for this function is the data of type nav_msgs.msg.Odometry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pose</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pose</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">y</span></div>
+
+<div class="viewcode-block" id="RobotState.get_pose"><a class="viewcode-back" href="../../index.html#src.robot_states.RobotState.get_pose">[docs]</a>    <span class="k">def</span> <span class="nf">get_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The implementation of the /state/get_pose service. The input parameter, request, </span>
+<span class="sd">        from the client is not used. The response returned to the client contains the current </span>
+<span class="sd">        robot pose. The argument request is of type GetPoseRequest. The returned value is of</span>
+<span class="sd">        type GetPoseResponse.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pose</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># print(self._pose)</span>
+
+            <span class="c1">### rospy log</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="s1">&#39;Cannot get a robot position&#39;</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1">#### get the position</span>
+            <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Get a robot position via `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_POSE</span><span class="si">}</span><span class="s1">` as (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_pose</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_pose</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+
+        <span class="c1">### execute pose    </span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">GetPoseResponse</span><span class="p">()</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pose</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="RobotState.set_battery_level"><a class="viewcode-back" href="../../index.html#src.robot_states.RobotState.set_battery_level">[docs]</a>    <span class="k">def</span> <span class="nf">set_battery_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The implementation of the state/set_battery_level service.</span>
+<span class="sd">        The input parameter request is the current battery level of the robot to be set, </span>
+<span class="sd">        which is provided by the client. The server returns an empty response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">battery_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Battery level is fine and set&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_battery_level</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">battery_level</span>
+            <span class="n">log_msg</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Set current robot battery level via `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BATTERY_LEVEL</span><span class="si">}</span><span class="s1">` &#39;</span>
+                             <span class="sa">f</span><span class="s1">&#39;as (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_battery_level</span><span class="si">}</span><span class="s1">).&#39;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="n">log_msg</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1">### error appeard</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error with battery&#39;</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="s1">&#39;Couldnt set battery level&#39;</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">SetBatteryLevelResponse</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="RobotState.get_battery_level"><a class="viewcode-back" href="../../index.html#src.robot_states.RobotState.get_battery_level">[docs]</a>    <span class="k">def</span> <span class="nf">get_battery_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The implementation of the state/get_battery_level service. The input parameter of </span>
+<span class="sd">        the request is empty, as provided by the client. The response returned to the client</span>
+<span class="sd">        includes the current battery level of the robot. </span>
+<span class="sd">        </span>
+<span class="sd">        Args: </span>
+<span class="sd">            request (GetBatteryLevelRequest). </span>
+<span class="sd">        Returns: </span>
+<span class="sd">            response (GetBatteryLevelResponse).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_battery_level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error with battery&#39;</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="s1">&#39;Could not get battery level&#39;</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Get battery level via `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_BATTERY_LEVEL</span><span class="si">}</span><span class="s1">` as (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_battery_level</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="n">log_msg</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        
+        <span class="c1">### response of getting battery</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">GetBatteryLevelResponse</span><span class="p">()</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">battery_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_battery_level</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="RobotState.set_base_movement_state"><a class="viewcode-back" href="../../index.html#src.robot_states.RobotState.set_base_movement_state">[docs]</a>    <span class="k">def</span> <span class="nf">set_base_movement_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The `state/set_base_movement_state` service implementation.</span>
+<span class="sd">            The `request` input parameter is the current robot base movement state to be set,</span>
+<span class="sd">            as given by the client. This server returns an empty `response`.</span>
+<span class="sd">            Arg:</span>
+<span class="sd">                request(SetBaseMovementStateRequest)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">base_movement_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_movement_state</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">base_movement_state</span>
+            <span class="n">log_msg</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Set current robot movement state through `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BASE_MOVEMENT_STATE</span><span class="si">}</span><span class="s1">` &#39;</span>
+                       <span class="sa">f</span><span class="s1">&#39;as (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_movement_state</span><span class="si">}</span><span class="s1">).&#39;</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="s1">&#39;Cannot set an unspecified robot movement state&#39;</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">SetBaseMovementStateResponse</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="RobotState.get_base_movement_state"><a class="viewcode-back" href="../../index.html#src.robot_states.RobotState.get_base_movement_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_base_movement_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The implementation of the state/get_base_movement_state service. The request parameter provided by the client is empty </span>
+<span class="sd">        and is not used. The response returned to the client includes the current state of the robot&#39;s base movement.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            request (GetBaseMovementStateRequest)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            response (GetBaseMovementStateResponse)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_movement_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error in base statement &quot;</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="s1">&#39;Could not get movement state&#39;</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;got it&quot;</span><span class="p">)</span>
+            <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Get current robot movement state through `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_BASE_MOVEMENT_STATE</span><span class="si">}</span><span class="s1">` as (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_movement_state</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">log_msg</span><span class="p">)</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+
+        <span class="c1">#### response of base movement</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">GetBaseMovementStateResponse</span><span class="p">()</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">base_movement_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_movement_state</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+
+<span class="c1"># main</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Launching the Robot State&quot;</span><span class="p">)</span>
+    <span class="n">RobotState</span><span class="p">()</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">robotPatrol 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">src.robot_states</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Bauyrzhan Zhakanov.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+  </body>
+</html>

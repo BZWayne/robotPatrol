@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classrobot__states_1_1_robot_state" kind="class" language="Python" prot="public">
+    <compoundname>robot_states::RobotState</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrobot__states_1_1_robot_state_1a0894b6337f559998dbcab19f0343f20e" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>robot_states.RobotState::_pose</definition>
+        <argsstring></argsstring>
+        <name>_pose</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="43" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrobot__states_1_1_robot_state_1a61d1a5d1d85f0b337e75b94b45cd2935" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>robot_states.RobotState::_battery_level</definition>
+        <argsstring></argsstring>
+        <name>_battery_level</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="44" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrobot__states_1_1_robot_state_1aaffda2e50d2a708c246789e588f575da" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>robot_states.RobotState::_base_movement_state</definition>
+        <argsstring></argsstring>
+        <name>_base_movement_state</name>
+        <briefdescription>
+<para>execution </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="45" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrobot__states_1_1_robot_state_1af915ba84f14daac9b0aaa87cec6e62b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def robot_states.RobotState.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initializes the &quot;robot-states&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="36" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="36" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classrobot__states_1_1_robot_state_1ab77b6ffea0224311a5d2f4ba5a3d348f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def robot_states.RobotState.odom_callback</definition>
+        <argsstring>(self, data)</argsstring>
+        <name>odom_callback</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Callback function for the /odom topic subscriber that updates the robot&apos;s current pose in the robot-states node.
+The argument for this function is the data of type nav_msgs.msg.Odometry.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="69" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="69" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classrobot__states_1_1_robot_state_1a76199309686fac776fe4427a8e549264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def robot_states.RobotState.get_pose</definition>
+        <argsstring>(self, request)</argsstring>
+        <name>get_pose</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>request</type>
+          <defname>request</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The implementation of the /state/get_pose service. The input parameter, request, 
+from the client is not used. The response returned to the client contains the current 
+robot pose. The argument request is of type GetPoseRequest. The returned value is of
+type GetPoseResponse.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="77" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="77" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classrobot__states_1_1_robot_state_1a9d666c94f6af03d229edecdfa0965746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def robot_states.RobotState.set_battery_level</definition>
+        <argsstring>(self, request)</argsstring>
+        <name>set_battery_level</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>request</type>
+          <defname>request</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The implementation of the state/set_battery_level service.
+The input parameter request is the current battery level of the robot to be set, 
+which is provided by the client. The server returns an empty response.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="100" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="100" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classrobot__states_1_1_robot_state_1a0316b600d1220427d72f03c319e3a015" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def robot_states.RobotState.get_battery_level</definition>
+        <argsstring>(self, request)</argsstring>
+        <name>get_battery_level</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>request</type>
+          <defname>request</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The implementation of the state/get_battery_level service. The input parameter of 
+the request is empty, as provided by the client. The response returned to the client
+includes the current battery level of the robot. 
+
+Args: 
+    request (GetBatteryLevelRequest). 
+Returns: 
+    response (GetBatteryLevelResponse).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="122" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="122" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classrobot__states_1_1_robot_state_1a61dc95746c214504aa967792d6ee13b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def robot_states.RobotState.set_base_movement_state</definition>
+        <argsstring>(self, request)</argsstring>
+        <name>set_base_movement_state</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>request</type>
+          <defname>request</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>    The `state/set_base_movement_state` service implementation.
+    The `request` input parameter is the current robot base movement state to be set,
+    as given by the client. This server returns an empty `response`.
+    Arg:
+request(SetBaseMovementStateRequest)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="148" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="148" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classrobot__states_1_1_robot_state_1ac045928829450474bcab6eec5f5cff9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def robot_states.RobotState.get_base_movement_state</definition>
+        <argsstring>(self, request)</argsstring>
+        <name>get_base_movement_state</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>request</type>
+          <defname>request</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The implementation of the state/get_base_movement_state service. The request parameter provided by the client is empty 
+and is not used. The response returned to the client includes the current state of the robot&apos;s base movement.
+Args:
+    request (GetBaseMovementStateRequest)
+
+Returns:
+    response (GetBaseMovementStateResponse)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="165" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="165" bodyend="189"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Initializes the &quot;robot-states&quot; node to provide crucial information about the robot&apos;s current 
+state, such as its pose, battery level, and base movement state.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="31" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="31" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classrobot__states_1_1_robot_state_1af915ba84f14daac9b0aaa87cec6e62b2" prot="public" virt="non-virtual"><scope>robot_states::RobotState</scope><name>__init__</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1aaffda2e50d2a708c246789e588f575da" prot="private" virt="non-virtual"><scope>robot_states::RobotState</scope><name>_base_movement_state</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1a61d1a5d1d85f0b337e75b94b45cd2935" prot="private" virt="non-virtual"><scope>robot_states::RobotState</scope><name>_battery_level</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1a0894b6337f559998dbcab19f0343f20e" prot="private" virt="non-virtual"><scope>robot_states::RobotState</scope><name>_pose</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1ac045928829450474bcab6eec5f5cff9b" prot="public" virt="non-virtual"><scope>robot_states::RobotState</scope><name>get_base_movement_state</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1a0316b600d1220427d72f03c319e3a015" prot="public" virt="non-virtual"><scope>robot_states::RobotState</scope><name>get_battery_level</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1a76199309686fac776fe4427a8e549264" prot="public" virt="non-virtual"><scope>robot_states::RobotState</scope><name>get_pose</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1ab77b6ffea0224311a5d2f4ba5a3d348f" prot="public" virt="non-virtual"><scope>robot_states::RobotState</scope><name>odom_callback</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1a61dc95746c214504aa967792d6ee13b4" prot="public" virt="non-virtual"><scope>robot_states::RobotState</scope><name>set_base_movement_state</name></member>
+      <member refid="classrobot__states_1_1_robot_state_1a9d666c94f6af03d229edecdfa0965746" prot="public" virt="non-virtual"><scope>robot_states::RobotState</scope><name>set_battery_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

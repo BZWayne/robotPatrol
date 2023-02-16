@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacerobot__states" kind="namespace" language="Python">
+    <compoundname>robot_states</compoundname>
+    <innerclass refid="classrobot__states_1_1_robot_state" prot="public">robot_states::RobotState</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacerobot__states_1abdab53603438dfbd20fd37b12ad495ba" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>robot_states.node_fsm</definition>
+        <argsstring></argsstring>
+        <name>node_fsm</name>
+        <initializer>=  anm.NODE_ROBOT_STATE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="29" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>.. module:: robot_states
+    :platform: Unix
+    :synopsis: the robot_states python script 
+    
+.. moduleauthor:: Bauyrzhan Zhakanov &lt;bauyrzhan.zhakanov@gmail.com&gt;
+
+Subscribes to :
+    /odom
+Uses Service:
+    /state/set_battery_level
+    /state/get_battery_level 
+    /state/get_pose 
+    /state/set_base_movement_state  
+    /state/get_base_movement_state
+    
+Robot states is the script where the robot condition will be identified such as battery level, base movement, odometry information,
+its pose information. 
+</verbatim> </para>
+    </detaileddescription>
+    <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robot_states.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

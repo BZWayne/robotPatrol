@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>src.fsm &#8212; robotPatrol 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">robotPatrol 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">src.fsm</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for src.fsm</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	.. module:: fsm</span>
+<span class="sd">		:platform: Unix</span>
+<span class="sd">		:synopsis: the fsm python script</span>
+
+<span class="sd">	.. moduleauthor:: Bauyrzhan Zhakanov &lt;bauyrzhan.zhakanov@gmail.com&gt;</span>
+
+<span class="sd">	Subscribes to:</span>
+<span class="sd">		/image_id</span>
+<span class="sd">	Uses Service:</span>
+<span class="sd">		/state/set_battery_level</span>
+<span class="sd">		/state/get_pose</span>
+<span class="sd">		/state/set_base_movement_state</span>
+<span class="sd">		/room_info</span>
+<span class="sd">		/move_arm</span>
+<span class="sd">	Uses Action:</span>
+<span class="sd">		/move_base</span>
+<span class="sd">	Uses helper script:</span>
+<span class="sd">		/utilities/robot_control/map.py</span>
+
+<span class="sd">	The finite state machine&#39;s initial state involves building a semantic map of</span>
+<span class="sd">	the environment using image IDs of markers detected by the robot camera. </span>
+<span class="sd">	This node updates the ontology using the map.py helper script </span>
+<span class="sd">	and retrieves the target room based on the last visit times and the robot&#39;s </span>
+<span class="sd">	battery state. In the next state, the robot moves to the target room, and if </span>
+<span class="sd">	the battery level drops below a threshold, the robot goes to the charger to recharge.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">import</span> <span class="nn">smach</span>
+<span class="kn">import</span> <span class="nn">smach_ros</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">actionlib</span>
+<span class="kn">from</span> <span class="nn">move_base_msgs.msg</span> <span class="kn">import</span> <span class="n">MoveBaseAction</span><span class="p">,</span> <span class="n">MoveBaseGoal</span>
+<span class="kn">from</span> <span class="nn">assignment2.msg</span> <span class="kn">import</span> <span class="n">RoomConnection</span><span class="p">,</span> <span class="n">Point</span>
+<span class="kn">from</span> <span class="nn">assignment2.srv</span> <span class="kn">import</span> <span class="n">SetBatteryLevel</span><span class="p">,</span> <span class="n">GetPose</span><span class="p">,</span> <span class="n">SetBaseMovementState</span><span class="p">,</span> <span class="n">RoomInformation</span>
+<span class="kn">from</span> <span class="nn">robot_control</span> <span class="kn">import</span> <span class="n">logs_mapper</span> <span class="k">as</span> <span class="n">anm</span>
+<span class="kn">from</span> <span class="nn">robot_control.map</span> <span class="kn">import</span> <span class="n">MapOntology</span>
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">Int32</span>
+<span class="kn">from</span> <span class="nn">std_srvs.srv</span> <span class="kn">import</span> <span class="n">SetBool</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Lock</span> 
+
+<span class="c1"># A tag for identifying logs producer.</span>
+<span class="n">node_fsm</span> <span class="o">=</span> <span class="n">anm</span><span class="o">.</span><span class="n">NODE_FINITE_STATE_MACHINE</span>
+<span class="n">node_time_for_log</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">publisher_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">ontology</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">threading_lock</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">room_id</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">room_name</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">room_center</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">room_connection</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">door</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="getRoomId"><a class="viewcode-back" href="../../index.html#src.fsm.getRoomId">[docs]</a><span class="k">def</span> <span class="nf">getRoomId</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The client for the marker_server retrieves information for a specific room using the room_info service.</span>
+<span class="sd">    The argument room_id is an integer that is used to identify the room. The function returns a response </span>
+<span class="sd">    in the form of resp (RoomInformationResponse).&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;room_info&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;room_info&#39;</span><span class="p">,</span> <span class="n">RoomInformation</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">service</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span> 
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Service call failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">e</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="getImageId"><a class="viewcode-back" href="../../index.html#src.fsm.getImageId">[docs]</a><span class="k">def</span> <span class="nf">getImageId</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The callback function for the subscriber of the /image_id topic checks if the image id detected </span>
+<span class="sd">    is valuable and has not already been recorded. If so, it saves the information for each room by </span>
+<span class="sd">    calling the function getRoomId(room_id) and modifies the ontology using functions from the helper </span>
+<span class="sd">    script map.py such as add_room(room), add_door(door), assign_doors_to_room(room, doors), </span>
+<span class="sd">    disjoint_individuals(), and add_last_visit_time(room, visit_time). The argument data is an </span>
+<span class="sd">    integer that represents the image id.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">room_id</span>
+    <span class="k">global</span> <span class="n">room_name</span>
+    <span class="k">global</span> <span class="n">room_center</span>
+    <span class="k">global</span> <span class="n">room_connection</span>
+    <span class="k">global</span> <span class="n">door</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">room_id</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">:</span>
+        <span class="n">room_id</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>    
+        <span class="n">room_info</span> <span class="o">=</span> <span class="n">getRoomId</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">room_name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">room</span><span class="p">)</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="s1">&#39;Semantic map updated, room &#39;</span><span class="o">+</span> <span class="n">room_info</span><span class="o">.</span><span class="n">room</span> <span class="o">+</span> <span class="s1">&#39; detected&#39;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="n">ontology</span><span class="o">.</span><span class="n">add_room</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">room</span><span class="p">)</span>
+
+        <span class="n">room_center</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">room_info</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">room_info</span><span class="o">.</span><span class="n">y</span><span class="p">])</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="s1">&#39;Center position is: [</span><span class="si">%f</span><span class="s1">, </span><span class="si">%f</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">room_info</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">connections</span><span class="p">)):</span>
+            <span class="n">room_connection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">connected_to</span><span class="p">)</span>
+            <span class="n">door</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">through_door</span><span class="p">)</span>
+            <span class="n">log_msg</span> <span class="o">=</span> <span class="s1">&#39;Room &#39;</span> <span class="o">+</span> <span class="n">room_info</span><span class="o">.</span><span class="n">room</span> <span class="o">+</span> <span class="s1">&#39; is connected to &#39;</span> <span class="o">+</span> <span class="n">room_info</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">connected_to</span> <span class="o">+</span> <span class="s1">&#39; via door &#39;</span> <span class="o">+</span> <span class="n">room_info</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">through_door</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+            <span class="n">ontology</span><span class="o">.</span><span class="n">add_door</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">through_door</span><span class="p">)</span>
+            <span class="n">ontology</span><span class="o">.</span><span class="n">assign_doors_to_room</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="n">room_info</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">through_door</span><span class="p">)</span>
+
+        <span class="n">ontology</span><span class="o">.</span><span class="n">disjoint_individuals</span><span class="p">()</span>
+        <span class="n">ontology</span><span class="o">.</span><span class="n">add_last_visit_time</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">room</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">room_info</span><span class="o">.</span><span class="n">visit_time</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="movingPose"><a class="viewcode-back" href="../../index.html#src.fsm.movingPose">[docs]</a><span class="k">def</span> <span class="nf">movingPose</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function serves as an action client for the &quot;move_base&quot; node. It takes a pose as an argument </span>
+<span class="sd">    and sends it in the form of &quot;MoveBaseGoal.msg&quot; to the action server. The function returns the </span>
+<span class="sd">    result in the form of &quot;MoveBaseResult.msg&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">actionlib</span><span class="o">.</span><span class="n">SimpleActionClient</span><span class="p">(</span><span class="s1">&#39;move_base&#39;</span><span class="p">,</span><span class="n">MoveBaseAction</span><span class="p">)</span>
+    <span class="n">goal</span> <span class="o">=</span> <span class="n">MoveBaseGoal</span><span class="p">()</span>
+    <span class="n">goal</span><span class="o">.</span><span class="n">target_pose</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">frame_id</span> <span class="o">=</span> <span class="s2">&quot;map&quot;</span>
+    <span class="n">goal</span><span class="o">.</span><span class="n">target_pose</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">stamp</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">goal</span><span class="o">.</span><span class="n">target_pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">x</span>
+    <span class="n">goal</span><span class="o">.</span><span class="n">target_pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span>
+    <span class="n">goal</span><span class="o">.</span><span class="n">target_pose</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">wait_for_server</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">send_goal</span><span class="p">(</span><span class="n">goal</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="getConfirmation"><a class="viewcode-back" href="../../index.html#src.fsm.getConfirmation">[docs]</a><span class="k">def</span> <span class="nf">getConfirmation</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determines if the robot has arrived at a specific point by calculating the Euclidean distance </span>
+<span class="sd">    between the robot&#39;s current pose and the target pose.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        target_pose (Point): The desired location for the robot to reach.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        reached (Bool): Indicates whether or not the robot has arrived at the target pose.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_POSE</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_GET_POSE</span><span class="p">,</span> <span class="n">GetPose</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">service</span><span class="p">()</span>
+        <span class="n">pose</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">pose</span>
+        <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">pose</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">pose</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">reached</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reached</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="s1">&#39;target reached state: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">reached</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">reached</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Server cannot get current robot position: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="getRoomLocation"><a class="viewcode-back" href="../../index.html#src.fsm.getRoomLocation">[docs]</a><span class="k">def</span> <span class="nf">getRoomLocation</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function detects the center position of a specific room by using the room information.</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        room (string): the name of the room to detect the center position of</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        room_pose (Point): the center position of the specified room</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">room_name</span>
+    <span class="k">global</span> <span class="n">room_center</span>
+    <span class="n">room_pose</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+    <span class="n">room_index</span> <span class="o">=</span> <span class="n">room_name</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">room_pose</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">room_center</span><span class="p">[</span><span class="n">room_index</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">room_pose</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">room_center</span><span class="p">[</span><span class="n">room_index</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">room_pose</span></div>
+
+<div class="viewcode-block" id="battery_data"><a class="viewcode-back" href="../../index.html#src.fsm.battery_data">[docs]</a><span class="k">def</span> <span class="nf">battery_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Updates the battery level of the robot by using the /state/battery_data service.</span>
+<span class="sd">    The current level of the robot&#39;s battery is stored in the robot-state node.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BATTERY_LEVEL</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Set a battery level to the `</span><span class="si">{</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BATTERY_LEVEL</span><span class="si">}</span><span class="s1">` node.&#39;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BATTERY_LEVEL</span><span class="p">,</span> <span class="n">SetBatteryLevel</span><span class="p">)</span>
+        <span class="n">service</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Cannot set current robot battery level: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="setArmMotion"><a class="viewcode-back" href="../../index.html#src.fsm.setArmMotion">[docs]</a><span class="k">def</span> <span class="nf">setArmMotion</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Updates the arm movement state of the robot through the service client for /move_arm </span>
+<span class="sd">    stored in the robotik node.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;/move_arm&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="s1">&#39;Moving an arm to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;move_arm&#39;</span><span class="p">,</span> <span class="n">SetBool</span><span class="p">)</span>
+        <span class="n">service</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Cannot set a arm movement: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="base_data"><a class="viewcode-back" href="../../index.html#src.fsm.base_data">[docs]</a><span class="k">def</span> <span class="nf">base_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Service client function for /state/set_base_movement_state. Modifies the robot&#39;s base movement </span>
+<span class="sd">    state stored in the robot-states node.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BASE_MOVEMENT_STATE</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="s1">&#39;Setting base movement state to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">ROBOT_SET_BASE_MOVEMENT_STATE</span><span class="p">,</span> <span class="n">SetBaseMovementState</span><span class="p">)</span>
+        <span class="n">service</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Cannot set base movement: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="LoadMap"><a class="viewcode-back" href="../../index.html#src.fsm.LoadMap">[docs]</a><span class="k">class</span> <span class="nc">LoadMap</span><span class="p">(</span><span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The initial state is defined as building a semantic map for the robot. The arm of the robot is set to move along</span>
+<span class="sd">    desired trajectories as defined in the robotik.cpp file using the setArmMotion(data) function. If sufficient room </span>
+<span class="sd">    IDs are detected, the state will exit and return the status of map_loaded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the execution with map_loaded state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;map_loaded&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="LoadMap.execute"><a class="viewcode-back" href="../../index.html#src.fsm.LoadMap.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userdata</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute the LoadMap() state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">threading_lock</span>
+        <span class="k">global</span> <span class="n">room_id</span>
+
+        <span class="c1">### execution</span>
+        <span class="n">setArmMotion</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span> 
+            <span class="n">threading_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">room_id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s1">&#39;map_loaded&#39;</span>
+            <span class="c1"># except:</span>
+            <span class="c1">#     return &#39;map_not_loaded&#39;</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">threading_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">node_time_for_log</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="MovingCorridor"><a class="viewcode-back" href="../../index.html#src.fsm.MovingCorridor">[docs]</a><span class="k">class</span> <span class="nc">MovingCorridor</span><span class="p">(</span><span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The state where the robot moves to a desired location is defined in this code. </span>
+<span class="sd">    First, the function set_base_movement_state(base_movement_state) is used to enable battery </span>
+<span class="sd">    consumption. Then, the robot moves to the target room with the help of the function </span>
+<span class="sd">    movingPose(pose). As the robot moves to its destination, the ontology is updated with </span>
+<span class="sd">    the function update_ontology(now). When the robot reaches its target room, the state is </span>
+<span class="sd">    exited and the function returns reached. If the battery level drops below the threshold, </span>
+<span class="sd">    the function returns battery_low and the target room is cancelled.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the execution with reached or battery_low states</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;reached&#39;</span><span class="p">,</span> <span class="s1">&#39;battery_low&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="MovingCorridor.execute"><a class="viewcode-back" href="../../index.html#src.fsm.MovingCorridor.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userdata</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Excecute MovintCorridor() state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">threading_lock</span>
+        <span class="k">global</span> <span class="n">ontology</span>
+
+        <span class="c1">## parameters for ontology</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">get_rostime</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">target_room</span><span class="p">,</span> <span class="n">battery_low</span><span class="p">]</span> <span class="o">=</span> <span class="n">ontology</span><span class="o">.</span><span class="n">update_ontology</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+        <span class="n">target_room_pose</span> <span class="o">=</span> <span class="n">getRoomLocation</span><span class="p">(</span><span class="n">target_room</span><span class="p">)</span>
+        <span class="n">base_data</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">movingPose</span><span class="p">(</span><span class="n">target_room_pose</span><span class="p">)</span>
+
+        <span class="c1">## execution</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span> 
+            <span class="n">threading_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">get_rostime</span><span class="p">()</span>
+                <span class="p">[</span><span class="n">next_target_room</span><span class="p">,</span> <span class="n">battery_low</span><span class="p">]</span> <span class="o">=</span> <span class="n">ontology</span><span class="o">.</span><span class="n">update_ontology</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+                <span class="n">log_msg</span> <span class="o">=</span> <span class="s1">&#39;target room: &#39;</span> <span class="o">+</span> <span class="n">target_room</span>
+                <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">anm</span><span class="o">.</span><span class="n">tag_log</span><span class="p">(</span><span class="n">log_msg</span><span class="p">,</span> <span class="n">node_fsm</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">battery_low</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s1">&#39;battery_low&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">reached</span> <span class="o">=</span> <span class="n">getConfirmation</span><span class="p">(</span><span class="n">target_room_pose</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">reached</span><span class="p">:</span>
+                        <span class="n">base_data</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="s1">&#39;reached&#39;</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">threading_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">node_time_for_log</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="DiscoverRoom"><a class="viewcode-back" href="../../index.html#src.fsm.DiscoverRoom">[docs]</a><span class="k">class</span> <span class="nc">DiscoverRoom</span><span class="p">(</span><span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines the state where the robot has arrived at the target room and begins to explore it. </span>
+<span class="sd">    The robot arm&#39;s movement is enabled just like in the initial state using the setArmMotion(data) </span>
+<span class="sd">    function, and then it returns discovered.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the execution with discovered state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;discovered&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="DiscoverRoom.execute"><a class="viewcode-back" href="../../index.html#src.fsm.DiscoverRoom.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userdata</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes DiscoverRoom() state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">threading_lock</span>
+        <span class="k">global</span> <span class="n">ontology</span>
+
+        <span class="c1">## execution</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span> 
+            <span class="n">threading_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">setArmMotion</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">return</span> <span class="s1">&#39;discovered&#39;</span>
+
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">threading_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="MovingForBattery"><a class="viewcode-back" href="../../index.html#src.fsm.MovingForBattery">[docs]</a><span class="k">class</span> <span class="nc">MovingForBattery</span><span class="p">(</span><span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The state when the battery is low and the robot needs to recharge is defined. </span>
+<span class="sd">    The function set_base_movement_state(movement_state) is used to enable battery </span>
+<span class="sd">    consumption, and the robot moves towards the charger using the movingPose(pose) </span>
+<span class="sd">    function. The ontology is updated during the movement to the charger using the </span>
+<span class="sd">    update_ontology(now) function until the robot reaches the charger.&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the execution with reached state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;reached&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="MovingForBattery.execute"><a class="viewcode-back" href="../../index.html#src.fsm.MovingForBattery.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userdata</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes MovingForBattery() state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">threading_lock</span>
+        <span class="k">global</span> <span class="n">ontology</span>
+
+        <span class="c1">## parameters for ontology</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">get_rostime</span><span class="p">()</span>
+        <span class="n">ontology</span><span class="o">.</span><span class="n">update_ontology</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+        <span class="n">target_room_pose</span> <span class="o">=</span> <span class="n">getRoomLocation</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span>
+        <span class="n">base_data</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">movingPose</span><span class="p">(</span><span class="n">target_room_pose</span><span class="p">)</span>
+
+        <span class="c1">## execution</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>  
+            <span class="n">threading_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">get_rostime</span><span class="p">()</span>
+                <span class="n">ontology</span><span class="o">.</span><span class="n">update_ontology</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+                <span class="n">reached</span> <span class="o">=</span> <span class="n">getConfirmation</span><span class="p">(</span><span class="n">target_room_pose</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">reached</span><span class="p">:</span>
+                    <span class="n">base_data</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="s1">&#39;reached&#39;</span>              
+
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">threading_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">node_time_for_log</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="Charging"><a class="viewcode-back" href="../../index.html#src.fsm.Charging">[docs]</a><span class="k">class</span> <span class="nc">Charging</span><span class="p">(</span><span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The state is called Charging() and it activates the robot has reached the charging station and </span>
+<span class="sd">    recharges the battery. The battery level is updated using the set_battery_level(battery_level) </span>
+<span class="sd">    function after a certain period of time has elapsed. The state then transitions to charged.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the execution with charged state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">State</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;charged&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="Charging.execute"><a class="viewcode-back" href="../../index.html#src.fsm.Charging.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userdata</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes Charging() state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">threading_lock</span>
+        <span class="k">global</span> <span class="n">ontology</span>
+        
+        <span class="c1">### execution</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>  
+            <span class="n">threading_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">get_rostime</span><span class="p">()</span>
+                <span class="n">ontology</span><span class="o">.</span><span class="n">update_ontology</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+                <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+                <span class="n">battery_data</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+                <span class="k">return</span> <span class="s1">&#39;charged&#39;</span>
+
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">threading_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../index.html#src.fsm.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The main function for the finite_state_machine node initializes the node and takes an instance of the</span>
+<span class="sd">    MapOntology class at the current time. It defines a subscriber for the /image_id topic and outlines the</span>
+<span class="sd">    states and transitions for the finite state machine&#39;s topological map. Finally, it starts the finite state machine process.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialise this node.</span>
+    <span class="k">global</span> <span class="n">ontology</span>
+    <span class="k">global</span> <span class="n">publisher_</span>
+    <span class="k">global</span> <span class="n">threading_lock</span>
+
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="n">node_fsm</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">rospy</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">get_rostime</span><span class="p">()</span>
+    <span class="n">ontology</span> <span class="o">=</span> <span class="n">MapOntology</span><span class="p">(</span><span class="n">node_fsm</span><span class="p">,</span> <span class="n">now</span><span class="p">)</span>
+
+    <span class="c1"># Get or create a new threading_lock.</span>
+    <span class="k">if</span> <span class="n">threading_lock</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">threading_lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">threading_lock</span> <span class="o">=</span> <span class="n">threading_lock</span>
+
+    <span class="c1"># Subscribe image id to get rooms information</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;/image_id&#39;</span><span class="p">,</span> <span class="n">Int32</span><span class="p">,</span> <span class="n">getImageId</span><span class="p">)</span>
+
+    <span class="c1"># Create a SMACH state machine</span>
+    <span class="n">robot_sm</span> <span class="o">=</span> <span class="n">smach</span><span class="o">.</span><span class="n">StateMachine</span><span class="p">(</span><span class="n">outcomes</span><span class="o">=</span><span class="p">[])</span>
+    <span class="n">robot_sm</span><span class="o">.</span><span class="n">userdata</span><span class="o">.</span><span class="n">sm_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Open the container</span>
+    <span class="k">with</span> <span class="n">robot_sm</span><span class="p">:</span>
+        <span class="c1"># Add states to the container</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">StateMachine</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;Load_Map&#39;</span><span class="p">,</span> <span class="n">LoadMap</span><span class="p">(),</span> 
+                                <span class="n">transitions</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;map_loaded&#39;</span><span class="p">:</span><span class="s1">&#39;Moving_Corridor&#39;</span><span class="p">})</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">StateMachine</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;Moving_Corridor&#39;</span><span class="p">,</span> <span class="n">MovingCorridor</span><span class="p">(),</span> 
+                                <span class="n">transitions</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;battery_low&#39;</span><span class="p">:</span><span class="s1">&#39;Moving_For_Battery&#39;</span><span class="p">,</span> <span class="s1">&#39;reached&#39;</span><span class="p">:</span><span class="s1">&#39;Discover_Room&#39;</span><span class="p">})</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">StateMachine</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;Moving_For_Battery&#39;</span><span class="p">,</span> <span class="n">MovingForBattery</span><span class="p">(),</span> 
+                                <span class="n">transitions</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;reached&#39;</span><span class="p">:</span><span class="s1">&#39;Charging&#39;</span><span class="p">})</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">StateMachine</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;Discover_Room&#39;</span><span class="p">,</span> <span class="n">DiscoverRoom</span><span class="p">(),</span> 
+                                <span class="n">transitions</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;discovered&#39;</span><span class="p">:</span><span class="s1">&#39;Moving_Corridor&#39;</span><span class="p">})</span>
+        <span class="n">smach</span><span class="o">.</span><span class="n">StateMachine</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;Charging&#39;</span><span class="p">,</span> <span class="n">Charging</span><span class="p">(),</span> 
+                                <span class="n">transitions</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;charged&#39;</span><span class="p">:</span><span class="s1">&#39;Moving_Corridor&#39;</span><span class="p">})</span>
+
+    <span class="c1"># Create and start the introspection for visualization</span>
+    <span class="n">sis</span> <span class="o">=</span> <span class="n">smach_ros</span><span class="o">.</span><span class="n">IntrospectionServer</span><span class="p">(</span><span class="s1">&#39;server_name&#39;</span><span class="p">,</span> <span class="n">robot_sm</span><span class="p">,</span> <span class="s1">&#39;/SM_ROOT&#39;</span><span class="p">)</span>
+    <span class="n">sis</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># Execute the smach</span>
+    <span class="n">outcome</span> <span class="o">=</span> <span class="n">robot_sm</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+    <span class="c1"># Wait for ctrl-c to stop the application</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span>
+    <span class="n">sis</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">robotPatrol 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">src.fsm</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Bauyrzhan Zhakanov.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classfsm_1_1_moving_for_battery" kind="class" language="Python" prot="public">
+    <compoundname>fsm::MovingForBattery</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">State</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classfsm_1_1_moving_for_battery_1a85f8b87e44fdd21a90414270c58e152b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.MovingForBattery.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize the execution with reached state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="336" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="336" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classfsm_1_1_moving_for_battery_1a6770def0ab75269db10a7183f2ce9092" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.MovingForBattery.execute</definition>
+        <argsstring>(self, userdata)</argsstring>
+        <name>execute</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>userdata</type>
+          <defname>userdata</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Executes MovingForBattery() state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="342" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="342" bodyend="370"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The state when the battery is low and the robot needs to recharge is defined. 
+The function set_base_movement_state(movement_state) is used to enable battery 
+consumption, and the robot moves towards the charger using the movingPose(pose) 
+function. The ontology is updated during the movement to the charger using the 
+update_ontology(now) function until the robot reaches the charger.&quot;</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>State</label>
+      </node>
+      <node id="1">
+        <label>fsm.MovingForBattery</label>
+        <link refid="classfsm_1_1_moving_for_battery"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>State</label>
+      </node>
+      <node id="1">
+        <label>fsm.MovingForBattery</label>
+        <link refid="classfsm_1_1_moving_for_battery"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="327" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="327" bodyend="371"/>
+    <listofallmembers>
+      <member refid="classfsm_1_1_moving_for_battery_1a85f8b87e44fdd21a90414270c58e152b" prot="public" virt="non-virtual"><scope>fsm::MovingForBattery</scope><name>__init__</name></member>
+      <member refid="classfsm_1_1_moving_for_battery_1a6770def0ab75269db10a7183f2ce9092" prot="public" virt="non-virtual"><scope>fsm::MovingForBattery</scope><name>execute</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

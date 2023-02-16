@@ -1,6 +1,6 @@
 /**
  * @file robotik.cpp
- * @brief Implements a node to control the arm of robot using moveit
+ * @brief Controller node of the robot arm using moveit
  * 
  * 
  * @details
@@ -10,9 +10,8 @@
  *
  * Description:
  * 
- * There are 7 markers in the environment, the joints configuration for each marker is found and once
- * the ``move_arm`` service is called with arg true, ``reach(req, resp)`` function tries to find the 
- * plan to the corresponding joints configuration and executes it.
+ * There are 7 points of the markers where robot needs to reach. 
+ * 
 **/
 
 #include <ros/ros.h>
@@ -23,8 +22,7 @@
 #include <std_srvs/SetBool.h>
 
 /**
- * @brief Function for planning and executing it to each joints configuration. It uses the provided methods
- *  from ``moveit`` package for loading robot model, its kinematic and joints group. 
+ * @brief Function uses provided methods from ``moveit`` package for loading robot model, its kinematic and joints group. 
  * 
  * @param req 
  * @param resp 
@@ -134,6 +132,7 @@ bool reach(std_srvs::SetBool::Request &req, std_srvs::SetBool::Response &resp){
  * @param argv 
  * @return int 
  */
+ 
 int main(int argc, char** argv){
   ros::init(argc, argv, "robotik");
   ros::NodeHandle nh;

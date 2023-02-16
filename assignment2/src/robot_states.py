@@ -2,23 +2,21 @@
 """
 .. module:: robot_states
     :platform: Unix
-    :synopsis: the robot_states python script in ros-moveit-opencv-ontology package
-
+    :synopsis: the robot_states python script 
+    
 .. moduleauthor:: Bauyrzhan Zhakanov <bauyrzhan.zhakanov@gmail.com>
 
-Subscribes to:
+Subscribes to :
     /odom
 Uses Service:
     /state/set_battery_level
-    /state/get_battery_level
-    
-    /state/get_pose
-  
-    /state/set_base_movement_state
-  
+    /state/get_battery_level 
+    /state/get_pose 
+    /state/set_base_movement_state  
     /state/get_base_movement_state
-This node defines battery level, robot pose and robot base movement state in order to be used by other
-nodes in the software architecture. 
+    
+Robot states is the script where the robot condition will be identified such as battery level, base movement, odometry information,
+its pose information. 
 """
 import rospy
 from robot_control import logs_mapper as anm

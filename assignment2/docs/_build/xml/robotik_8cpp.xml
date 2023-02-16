@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="robotik_8cpp" kind="file" language="C++">
+    <compoundname>robotik.cpp</compoundname>
+    <includes local="no">ros/ros.h</includes>
+    <includes local="no">moveit/move_group_interface/move_group_interface.h</includes>
+    <includes local="no">moveit/robot_model_loader/robot_model_loader.h</includes>
+    <includes local="no">moveit/robot_model/robot_model.h</includes>
+    <includes local="no">moveit/robot_state/robot_state.h</includes>
+    <includes local="no">std_srvs/SetBool.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>moveit/move_group_interface/move_group_interface.h</label>
+      </node>
+      <node id="4">
+        <label>moveit/robot_model_loader/robot_model_loader.h</label>
+      </node>
+      <node id="7">
+        <label>std_srvs/SetBool.h</label>
+      </node>
+      <node id="5">
+        <label>moveit/robot_model/robot_model.h</label>
+      </node>
+      <node id="1">
+        <label>/root/ros_ws/src/robotPatrol/assignment2/src/robotik.cpp</label>
+        <link refid="robotik_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ros/ros.h</label>
+      </node>
+      <node id="6">
+        <label>moveit/robot_state/robot_state.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="robotik_8cpp_1a770a685d6c627a46682560e4ff7c2078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool reach</definition>
+        <argsstring>(std_srvs::SetBool::Request &amp;req, std_srvs::SetBool::Response &amp;resp)</argsstring>
+        <name>reach</name>
+        <param>
+          <type>std_srvs::SetBool::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>std_srvs::SetBool::Response &amp;</type>
+          <declname>resp</declname>
+        </param>
+        <briefdescription>
+<para>Function uses provided methods from <computeroutput>moveit</computeroutput> package for loading robot model, its kinematic and joints group. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true </para>
+</simplesect>
+<simplesect kind="return"><para>false </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robotik.cpp" line="32" column="6" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robotik.cpp" bodystart="32" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="robotik_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+<para>main function for <computeroutput>robotik</computeroutput> node </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>argc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robotik.cpp" line="136" column="5" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/robotik.cpp" bodystart="136" bodyend="144"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Controller node of the robot arm using moveit. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Services: <linebreak/>
+ /move_arm</para>
+<para>Description:</para>
+<para>There are 7 points of the markers where robot needs to reach. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="17"><highlight class="preprocessor">#include<sp/>&lt;ros/ros.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;moveit/move_group_interface/move_group_interface.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;moveit/robot_model_loader/robot_model_loader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;moveit/robot_model/robot_model.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;moveit/robot_state/robot_state.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;std_srvs/SetBool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="robotik_8cpp_1a770a685d6c627a46682560e4ff7c2078" kindref="member">reach</ref>(std_srvs::SetBool::Request<sp/>&amp;req,<sp/>std_srvs::SetBool::Response<sp/>&amp;resp){</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/>ros::AsyncSpinner<sp/>spinner(1);<sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/>spinner.start();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/>robot_model_loader::RobotModelLoader<sp/>robot_model_loader(</highlight><highlight class="stringliteral">&quot;robot_description&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>moveit::core::RobotModelPtr&amp;<sp/>kinematic_model<sp/>=<sp/>robot_model_loader.getModel();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>ROS_INFO(</highlight><highlight class="stringliteral">&quot;Model<sp/>frame:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>kinematic_model-&gt;getModelFrame().c_str());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>moveit::core::RobotStatePtr<sp/>kinematic_state(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>moveit::core::RobotState(kinematic_model));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>kinematic_state-&gt;setToDefaultValues();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>moveit::core::JointModelGroup*<sp/>joint_model_group<sp/>=<sp/>kinematic_model-&gt;getJointModelGroup(</highlight><highlight class="stringliteral">&quot;arm&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/>moveit::planning_interface::MoveGroupInterface<sp/>group(</highlight><highlight class="stringliteral">&quot;arm&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>joint_names<sp/>=<sp/>joint_model_group-&gt;getVariableNames();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1st<sp/>pose<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/>std::vector&lt;double&gt;<sp/>joint_values;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/>joint_values<sp/>=<sp/>{1.87,<sp/>1.0,<sp/>-0.75,<sp/>-1.77,<sp/>0.4};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/>group.setJointValueTarget(joint_values);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>and<sp/>execute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/>moveit::planning_interface::MoveGroupInterface::Plan<sp/>my_plan;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/>group.plan(my_plan);<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/>group.execute(my_plan);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position<sp/>1<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/>sleep(3.0);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2nd<sp/>pose<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>joint_values<sp/>=<sp/>{1,<sp/>-0.45,<sp/>0.45,<sp/>0.75,<sp/>0.0};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>group.setJointValueTarget(joint_values);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>and<sp/>execute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>group.plan(my_plan);<sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>group.execute(my_plan);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position<sp/>2<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/>sleep(3.0);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3rd<sp/>pose<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/>joint_values<sp/>=<sp/>{-1.27,<sp/>-0.5,<sp/>-1.75,<sp/>-1.27,<sp/>0.78};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/>group.setJointValueTarget(joint_values);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>and<sp/>execute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/>group.plan(my_plan);<sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/>group.execute(my_plan);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position<sp/>3<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/>sleep(3.0);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4th<sp/>pose<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>joint_values<sp/>=<sp/>{0.0,<sp/>0.0,<sp/>1.27,<sp/>-1.57,<sp/>0.0};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>group.setJointValueTarget(joint_values);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>and<sp/>execute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>group.plan(my_plan);<sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>group.execute(my_plan);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position<sp/>4<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>sleep(3.0);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>5th<sp/>pose<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>joint_values<sp/>=<sp/>{-1.57,<sp/>0.75,<sp/>1.25,<sp/>0.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/>group.setJointValueTarget(joint_values);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>and<sp/>execute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>group.plan(my_plan);<sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/>group.execute(my_plan);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position<sp/>5<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>sleep(3.0);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>6th<sp/>pose<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/>joint_values<sp/>=<sp/>{1.57,<sp/>-0.5,<sp/>-1.75,<sp/>-1.57,<sp/>0.78};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/>group.setJointValueTarget(joint_values);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>and<sp/>execute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/>group.plan(my_plan);<sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/>group.execute(my_plan);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position<sp/>6<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>sleep(3.0);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>7th<sp/>pose<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/>joint_values<sp/>=<sp/>{0.0,<sp/>0.0,<sp/>0.0,<sp/>3.14,<sp/>0.0};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/>group.setJointValueTarget(joint_values);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>group.setStartStateToCurrentState();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>and<sp/>execute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>group.plan(my_plan);<sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/>group.execute(my_plan);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Position<sp/>7<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/>sleep(3.0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/>resp.message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="robotik_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>argv){</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/>ros::init(argc,<sp/>argv,<sp/></highlight><highlight class="stringliteral">&quot;robotik&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>ros::NodeHandle<sp/>nh;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/>ros::ServiceServer<sp/>service<sp/>=<sp/>nh.advertiseService(</highlight><highlight class="stringliteral">&quot;move_arm&quot;</highlight><highlight class="normal">,<sp/><ref refid="robotik_8cpp_1a770a685d6c627a46682560e4ff7c2078" kindref="member">reach</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>ros::AsyncSpinner<sp/>spinner(1);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/>spinner.start();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/>ros::waitForShutdown();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">(0);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/root/ros_ws/src/robotPatrol/assignment2/src/robotik.cpp"/>
+  </compounddef>
+</doxygen>

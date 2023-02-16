@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.17">
+  <compound refid="classfsm_1_1_charging" kind="class"><name>fsm::Charging</name>
+    <member refid="classfsm_1_1_charging_1a618a204cf27e41f5c2f618c456467695" kind="function"><name>__init__</name></member>
+    <member refid="classfsm_1_1_charging_1abaa7442b794d679197875a3b4fa154b2" kind="function"><name>execute</name></member>
+  </compound>
+  <compound refid="classfsm_1_1_discover_room" kind="class"><name>fsm::DiscoverRoom</name>
+    <member refid="classfsm_1_1_discover_room_1a6be8c35e02cf009d4213aee1ecbb91c9" kind="function"><name>__init__</name></member>
+    <member refid="classfsm_1_1_discover_room_1abcef0b5f8609c3755ff80ca94d9c2085" kind="function"><name>execute</name></member>
+  </compound>
+  <compound refid="classfsm_1_1_load_map" kind="class"><name>fsm::LoadMap</name>
+    <member refid="classfsm_1_1_load_map_1a9f03d880e91debcd6799c9647545e15d" kind="function"><name>__init__</name></member>
+    <member refid="classfsm_1_1_load_map_1a817a5ced67270971c6eda09a60b0d5c2" kind="function"><name>execute</name></member>
+  </compound>
+  <compound refid="classfsm_1_1_moving_corridor" kind="class"><name>fsm::MovingCorridor</name>
+    <member refid="classfsm_1_1_moving_corridor_1a51966053c054fb363c2f0699ffc781c0" kind="function"><name>__init__</name></member>
+    <member refid="classfsm_1_1_moving_corridor_1ae3161c083a90dfe519b63aa840668bcd" kind="function"><name>execute</name></member>
+  </compound>
+  <compound refid="classfsm_1_1_moving_for_battery" kind="class"><name>fsm::MovingForBattery</name>
+    <member refid="classfsm_1_1_moving_for_battery_1a85f8b87e44fdd21a90414270c58e152b" kind="function"><name>__init__</name></member>
+    <member refid="classfsm_1_1_moving_for_battery_1a6770def0ab75269db10a7183f2ce9092" kind="function"><name>execute</name></member>
+  </compound>
+  <compound refid="classrobot__states_1_1_robot_state" kind="class"><name>robot_states::RobotState</name>
+    <member refid="classrobot__states_1_1_robot_state_1a0894b6337f559998dbcab19f0343f20e" kind="variable"><name>_pose</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1a61d1a5d1d85f0b337e75b94b45cd2935" kind="variable"><name>_battery_level</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1aaffda2e50d2a708c246789e588f575da" kind="variable"><name>_base_movement_state</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1af915ba84f14daac9b0aaa87cec6e62b2" kind="function"><name>__init__</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1ab77b6ffea0224311a5d2f4ba5a3d348f" kind="function"><name>odom_callback</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1a76199309686fac776fe4427a8e549264" kind="function"><name>get_pose</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1a9d666c94f6af03d229edecdfa0965746" kind="function"><name>set_battery_level</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1a0316b600d1220427d72f03c319e3a015" kind="function"><name>get_battery_level</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1a61dc95746c214504aa967792d6ee13b4" kind="function"><name>set_base_movement_state</name></member>
+    <member refid="classrobot__states_1_1_robot_state_1ac045928829450474bcab6eec5f5cff9b" kind="function"><name>get_base_movement_state</name></member>
+  </compound>
+  <compound refid="namespacefsm" kind="namespace"><name>fsm</name>
+    <member refid="namespacefsm_1a038a039275c5b10dc34201b8cf9bd34a" kind="variable"><name>node_fsm</name></member>
+    <member refid="namespacefsm_1afdb9611d0313dffb9de8187886920a8d" kind="variable"><name>node_time_for_log</name></member>
+    <member refid="namespacefsm_1a697afc3c0c388d6c95c47fc54f77a425" kind="variable"><name>publisher_</name></member>
+    <member refid="namespacefsm_1a5fb4b2a8327f9c20a5b028af53abf931" kind="variable"><name>ontology</name></member>
+    <member refid="namespacefsm_1a33516d56816bae9a0aec2bdac81208cd" kind="variable"><name>threading_lock</name></member>
+    <member refid="namespacefsm_1a0303b235343034f9d4533c3ab0823159" kind="variable"><name>room_id</name></member>
+    <member refid="namespacefsm_1adf8d5662b6f114c34f42e29e9184762f" kind="variable"><name>room_name</name></member>
+    <member refid="namespacefsm_1af7ff0f9ef22495f04fd03a7e05520089" kind="variable"><name>room_center</name></member>
+    <member refid="namespacefsm_1a540cf3add2b85f4ad8d9194ca769e170" kind="variable"><name>room_connection</name></member>
+    <member refid="namespacefsm_1a930f075d38ec2fc31fc6eaac5e3e719c" kind="variable"><name>door</name></member>
+    <member refid="namespacefsm_1a3263c316692e7570fd5b1b0f6d21d9c8" kind="function"><name>getRoomId</name></member>
+    <member refid="namespacefsm_1ab0b1f3b582926e79d3b4654f3db429b4" kind="function"><name>getImageId</name></member>
+    <member refid="namespacefsm_1afddd53706d07515fcf2045283ca2d015" kind="function"><name>movingPose</name></member>
+    <member refid="namespacefsm_1a80cc0a3d8d94a43d9a7b03ad99ec7bac" kind="function"><name>getConfirmation</name></member>
+    <member refid="namespacefsm_1a262573032986a4c57bab1779dcc8dbb9" kind="function"><name>getRoomLocation</name></member>
+    <member refid="namespacefsm_1a12f66437cff11b813cffb3f62f10c7a1" kind="function"><name>battery_data</name></member>
+    <member refid="namespacefsm_1af67440a6ede0f8267a125c60438dc55c" kind="function"><name>setArmMotion</name></member>
+    <member refid="namespacefsm_1ad236d81c522878af5d0ffbf171730d90" kind="function"><name>base_data</name></member>
+    <member refid="namespacefsm_1a973dbd0b67087a3e7a64abd7ae573b99" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="namespacerobot__states" kind="namespace"><name>robot_states</name>
+    <member refid="namespacerobot__states_1abdab53603438dfbd20fd37b12ad495ba" kind="variable"><name>node_fsm</name></member>
+  </compound>
+  <compound refid="fsm_8py" kind="file"><name>fsm.py</name>
+  </compound>
+  <compound refid="marker__server_8cpp" kind="file"><name>marker_server.cpp</name>
+    <member refid="marker__server_8cpp_1acb386145eddd7e35588ea2b3a5ec6ca5" kind="function"><name>markerCallback</name></member>
+    <member refid="marker__server_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="robot__states_8py" kind="file"><name>robot_states.py</name>
+  </compound>
+  <compound refid="robotik_8cpp" kind="file"><name>robotik.cpp</name>
+    <member refid="robotik_8cpp_1a770a685d6c627a46682560e4ff7c2078" kind="function"><name>reach</name></member>
+    <member refid="robotik_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>/root/ros_ws/src/robotPatrol/assignment2/src</name>
+  </compound>
+</doxygenindex>

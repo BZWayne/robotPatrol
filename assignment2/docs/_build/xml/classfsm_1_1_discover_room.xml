@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classfsm_1_1_discover_room" kind="class" language="Python" prot="public">
+    <compoundname>fsm::DiscoverRoom</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">State</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classfsm_1_1_discover_room_1a6be8c35e02cf009d4213aee1ecbb91c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.DiscoverRoom.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize the execution with discovered state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="304" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="304" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classfsm_1_1_discover_room_1abcef0b5f8609c3755ff80ca94d9c2085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.DiscoverRoom.execute</definition>
+        <argsstring>(self, userdata)</argsstring>
+        <name>execute</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>userdata</type>
+          <defname>userdata</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Executes DiscoverRoom() state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="310" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="310" bodyend="326"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Defines the state where the robot has arrived at the target room and begins to explore it. 
+The robot arm&apos;s movement is enabled just like in the initial state using the setArmMotion(data) 
+function, and then it returns discovered.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>State</label>
+      </node>
+      <node id="1">
+        <label>fsm.DiscoverRoom</label>
+        <link refid="classfsm_1_1_discover_room"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>State</label>
+      </node>
+      <node id="1">
+        <label>fsm.DiscoverRoom</label>
+        <link refid="classfsm_1_1_discover_room"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="298" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="298" bodyend="327"/>
+    <listofallmembers>
+      <member refid="classfsm_1_1_discover_room_1a6be8c35e02cf009d4213aee1ecbb91c9" prot="public" virt="non-virtual"><scope>fsm::DiscoverRoom</scope><name>__init__</name></member>
+      <member refid="classfsm_1_1_discover_room_1abcef0b5f8609c3755ff80ca94d9c2085" prot="public" virt="non-virtual"><scope>fsm::DiscoverRoom</scope><name>execute</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

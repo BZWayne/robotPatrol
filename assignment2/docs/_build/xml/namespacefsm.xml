@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacefsm" kind="namespace" language="Python">
+    <compoundname>fsm</compoundname>
+    <innerclass refid="classfsm_1_1_charging" prot="public">fsm::Charging</innerclass>
+    <innerclass refid="classfsm_1_1_discover_room" prot="public">fsm::DiscoverRoom</innerclass>
+    <innerclass refid="classfsm_1_1_load_map" prot="public">fsm::LoadMap</innerclass>
+    <innerclass refid="classfsm_1_1_moving_corridor" prot="public">fsm::MovingCorridor</innerclass>
+    <innerclass refid="classfsm_1_1_moving_for_battery" prot="public">fsm::MovingForBattery</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacefsm_1a038a039275c5b10dc34201b8cf9bd34a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>fsm.node_fsm</definition>
+        <argsstring></argsstring>
+        <name>node_fsm</name>
+        <initializer>=  anm.NODE_FINITE_STATE_MACHINE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="45" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1afdb9611d0313dffb9de8187886920a8d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int fsm.node_time_for_log</definition>
+        <argsstring></argsstring>
+        <name>node_time_for_log</name>
+        <initializer>=  5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="46" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1a697afc3c0c388d6c95c47fc54f77a425" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>fsm.publisher_</definition>
+        <argsstring></argsstring>
+        <name>publisher_</name>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="48" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1a5fb4b2a8327f9c20a5b028af53abf931" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>fsm.ontology</definition>
+        <argsstring></argsstring>
+        <name>ontology</name>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="49" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1a33516d56816bae9a0aec2bdac81208cd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>fsm.threading_lock</definition>
+        <argsstring></argsstring>
+        <name>threading_lock</name>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="50" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1a0303b235343034f9d4533c3ab0823159" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list fsm.room_id</definition>
+        <argsstring></argsstring>
+        <name>room_id</name>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="51" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1adf8d5662b6f114c34f42e29e9184762f" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list fsm.room_name</definition>
+        <argsstring></argsstring>
+        <name>room_name</name>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="52" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1af7ff0f9ef22495f04fd03a7e05520089" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list fsm.room_center</definition>
+        <argsstring></argsstring>
+        <name>room_center</name>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="53" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1a540cf3add2b85f4ad8d9194ca769e170" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list fsm.room_connection</definition>
+        <argsstring></argsstring>
+        <name>room_connection</name>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="54" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacefsm_1a930f075d38ec2fc31fc6eaac5e3e719c" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list fsm.door</definition>
+        <argsstring></argsstring>
+        <name>door</name>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="55" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacefsm_1a3263c316692e7570fd5b1b0f6d21d9c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.getRoomId</definition>
+        <argsstring>(data)</argsstring>
+        <name>getRoomId</name>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The client for the marker_server retrieves information for a specific room using the room_info service.
+The argument room_id is an integer that is used to identify the room. The function returns a response 
+in the form of resp (RoomInformationResponse).&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="57" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="57" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacefsm_1ab0b1f3b582926e79d3b4654f3db429b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.getImageId</definition>
+        <argsstring>(data)</argsstring>
+        <name>getImageId</name>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The callback function for the subscriber of the /image_id topic checks if the image id detected 
+is valuable and has not already been recorded. If so, it saves the information for each room by 
+calling the function getRoomId(room_id) and modifies the ontology using functions from the helper 
+script map.py such as add_room(room), add_door(door), assign_doors_to_room(room, doors), 
+disjoint_individuals(), and add_last_visit_time(room, visit_time). The argument data is an 
+integer that represents the image id.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="71" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="71" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacefsm_1afddd53706d07515fcf2045283ca2d015" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.movingPose</definition>
+        <argsstring>(data)</argsstring>
+        <name>movingPose</name>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The function serves as an action client for the &quot;move_base&quot; node. It takes a pose as an argument 
+and sends it in the form of &quot;MoveBaseGoal.msg&quot; to the action server. The function returns the 
+result in the form of &quot;MoveBaseResult.msg&quot;.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="109" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="109" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacefsm_1a80cc0a3d8d94a43d9a7b03ad99ec7bac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.getConfirmation</definition>
+        <argsstring>(data)</argsstring>
+        <name>getConfirmation</name>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determines if the robot has arrived at a specific point by calculating the Euclidean distance 
+between the robot&apos;s current pose and the target pose.
+
+Args:
+    target_pose (Point): The desired location for the robot to reach.
+
+Returns:
+    reached (Bool): Indicates whether or not the robot has arrived at the target pose.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="125" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="125" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacefsm_1a262573032986a4c57bab1779dcc8dbb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.getRoomLocation</definition>
+        <argsstring>(data)</argsstring>
+        <name>getRoomLocation</name>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function detects the center position of a specific room by using the room information.
+
+Args:
+
+    room (string): the name of the room to detect the center position of
+
+Returns:
+
+    room_pose (Point): the center position of the specified room
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="152" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="152" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacefsm_1a12f66437cff11b813cffb3f62f10c7a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.battery_data</definition>
+        <argsstring>(data)</argsstring>
+        <name>battery_data</name>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Updates the battery level of the robot by using the /state/battery_data service.
+The current level of the robot&apos;s battery is stored in the robot-state node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="172" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="172" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacefsm_1af67440a6ede0f8267a125c60438dc55c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.setArmMotion</definition>
+        <argsstring>(data)</argsstring>
+        <name>setArmMotion</name>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Updates the arm movement state of the robot through the service client for /move_arm 
+stored in the robotik node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="187" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="187" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacefsm_1ad236d81c522878af5d0ffbf171730d90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.base_data</definition>
+        <argsstring>(data)</argsstring>
+        <name>base_data</name>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Service client function for /state/set_base_movement_state. Modifies the robot&apos;s base movement 
+state stored in the robot-states node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="202" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="202" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacefsm_1a973dbd0b67087a3e7a64abd7ae573b99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The main function for the finite_state_machine node initializes the node and takes an instance of the
+MapOntology class at the current time. It defines a subscriber for the /image_id topic and outlines the
+states and transitions for the finite state machine&apos;s topological map. Finally, it starts the finite state machine process.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="403" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="403" bodyend="455"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    .. module:: fsm
+        :platform: Unix
+        :synopsis: the fsm python script
+
+    .. moduleauthor:: Bauyrzhan Zhakanov &lt;bauyrzhan.zhakanov@gmail.com&gt;
+
+    Subscribes to:
+        /image_id
+    Uses Service:
+        /state/set_battery_level
+        /state/get_pose
+        /state/set_base_movement_state
+        /room_info
+        /move_arm
+    Uses Action:
+        /move_base
+    Uses helper script:
+        /utilities/robot_control/map.py
+
+    The finite state machine&apos;s initial state involves building a semantic map of
+    the environment using image IDs of markers detected by the robot camera. 
+    This node updates the ontology using the map.py helper script 
+    and retrieves the target room based on the last visit times and the robot&apos;s 
+    battery state. In the next state, the robot moves to the target room, and if 
+    the battery level drops below a threshold, the robot goes to the charger to recharge.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

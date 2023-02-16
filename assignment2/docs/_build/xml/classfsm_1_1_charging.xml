@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classfsm_1_1_charging" kind="class" language="Python" prot="public">
+    <compoundname>fsm::Charging</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">State</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classfsm_1_1_charging_1a618a204cf27e41f5c2f618c456467695" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.Charging.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize the execution with charged state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="377" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="377" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classfsm_1_1_charging_1abaa7442b794d679197875a3b4fa154b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def fsm.Charging.execute</definition>
+        <argsstring>(self, userdata)</argsstring>
+        <name>execute</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>userdata</type>
+          <defname>userdata</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Executes Charging() state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="383" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="383" bodyend="402"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The state is called Charging() and it activates the robot has reached the charging station and 
+recharges the battery. The battery level is updated using the set_battery_level(battery_level) 
+function after a certain period of time has elapsed. The state then transitions to charged.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>fsm.Charging</label>
+        <link refid="classfsm_1_1_charging"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>smach::State</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>fsm.Charging</label>
+        <link refid="classfsm_1_1_charging"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>smach::State</label>
+      </node>
+    </collaborationgraph>
+    <location file="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" line="371" column="1" bodyfile="/root/ros_ws/src/robotPatrol/assignment2/src/fsm.py" bodystart="371" bodyend="403"/>
+    <listofallmembers>
+      <member refid="classfsm_1_1_charging_1a618a204cf27e41f5c2f618c456467695" prot="public" virt="non-virtual"><scope>fsm::Charging</scope><name>__init__</name></member>
+      <member refid="classfsm_1_1_charging_1abaa7442b794d679197875a3b4fa154b2" prot="public" virt="non-virtual"><scope>fsm::Charging</scope><name>execute</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
