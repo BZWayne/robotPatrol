@@ -22,7 +22,7 @@ Within the given setting, there are four distinct rooms labeled as R1, R2, R3, a
 
 #### Topological Map
 <p align="center">
-<img src="https://github.com/BZWayne/robotPatrol/blob/main/images/environment_ontology.png" width="1000" title="gazebo">
+<img src="https://github.com/BZWayne/robotPatrol/blob/main/images/enviroment_ontology.png" width="1000" title="gazebo">
 </p>
 
 #### GAZEBO simulation
