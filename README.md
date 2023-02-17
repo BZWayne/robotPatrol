@@ -99,11 +99,11 @@ $ sudo apt install ros-<distro>-gmapping
 * Install moveit:
 
 ```bashscript
-$ sudo apt-get install ros-noetic-moveit
-$ sudo apt-get install ros-noetic-rosparam-shortcuts ros-noetic-object-recognition-msgs ros-noetic-eigen-stl-containers
-$ sudo apt-get install ros-noetic-geometric-shapes ros-noetic-pybind11-catkin ros-noetic-ompl ros-noetic-warehouse-ros
-$ sudo apt-get install ros-noetic-eigenpy
-$ sudo apt-get install ros-noetic-moveit-resources-prbt-moveit-config
+$ sudo apt-get install ros-<distro>-moveit
+$ sudo apt-get install ros-<distro>-rosparam-shortcuts ros-<distro>-object-recognition-msgs ros-<distro>-eigen-stl-containers
+$ sudo apt-get install ros-<distro>-geometric-shapes ros-<distro>-pybind11-catkin ros-<distro>-ompl ros-<distro>-warehouse-ros
+$ sudo apt-get install ros-<distro>-eigenpy
+$ sudo apt-get install ros-<distro>-moveit-resources-prbt-moveit-config
 ```
 
 * Install liboctomap (Optional, but I installed to handle some issues):
