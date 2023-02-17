@@ -22,8 +22,8 @@ Protogé is used for building the ontology [ARMOR](https://github.com/EmaroLab/a
 #### Topological Map and GAZEBO simulation
 
 <p float="center">
-  <img src="https://github.com/BZWayne/robotPatrol/blob/main/images/enviroment_ontology.png" width="340" />
-  <img src="https://github.com/BZWayne/robotPatrol/blob/main/images/environment.png" width="600" /> 
+  <img src="https://github.com/BZWayne/robotPatrol/blob/main/images/enviroment_ontology.png" width="320" />
+  <img src="https://github.com/BZWayne/robotPatrol/blob/main/images/environment.png" width="550" /> 
 </p>
 
 ### Senario
