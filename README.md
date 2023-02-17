@@ -37,11 +37,11 @@ Within the given setting, there are four distinct rooms labeled as R1, R2, R3, a
   
 ## 2. Discription of software architecture 
  
-### Component and Temporal Diagram of Software Architecture
-
-#### Component Diagram
+### Software Architecture
 
 #### Temporal Diagram
+
+
 
 #### 1- Marker Publisher 
 [OpenCV](https://github.com/ros-perception/vision_opencv/tree/rolling/cv_bridge) is utilized for the image processing aspect of the task, employing the method presented in [aruco](https://github.com/CarmineD8/aruco_ros). To enable conversion between ROS Image messages and OpenCV images, the cv_bridge package is utilized.
