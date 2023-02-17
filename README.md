@@ -82,7 +82,7 @@ The robot manipulator arm is controlled by a controller node. The node is implem
 [slam_gmapping](https://github.com/ros-perception/slam_gmapping), a popular ROS package, is utilized for the purpose of creating maps. By utilizing data from a robot laser scanner, in conjunction with the robot's base frame position, slam_gmapping is able to locate the robot within the map. Unlike other mapping packages, slam_gmapping generates the map in real-time, as it does not require a pre-existing map file to function.
 
 
-## 4. Instalation and Running
+## 4. Installation and Running
 
 ### Installation
 
