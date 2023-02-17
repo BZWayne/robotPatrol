@@ -113,9 +113,15 @@ $ sudo apt-get install konsole
 * Install smach state for ROS if not installed:
 ```bashscript
 $ sudo apt-get install ros-<distro>-executive-smach*
-```
-```bashscript
 $ sudo apt-get install ros-<distro>-smach-viewer
+```
+
+* Import the repository to you ROS workspace:
+```bashscript
+$ cd /your_workspace/src/
+$ git clone https://github.com/BZWayne/robotPatrol.git
+$ cd ..
+$ cd catkin_make
 ```
 
 ### Running
