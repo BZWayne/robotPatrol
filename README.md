@@ -1,6 +1,6 @@
 # Robot Patrol
 
-## Video representation and [Documentation](https://github.com/BZWayne/bzwayne.github.io/blob/main/index.html)
+## Video representation and [Documentation](https://bzwayne.github.io/index.html)
 
 ## 1. Introduction 
 The following is the Experimental Robotics course project description, where a robot is utilized to patrol corridors through the implementation of ontology, smach, and ros. Additionally, the project includes the simulation of the robot's behavior. The project involves the following tasks:
