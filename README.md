@@ -3,7 +3,7 @@
 ## [Video representation](https://youtu.be/ogSSqXevKLI) and [Documentation](https://bzwayne.github.io/index.html)
 
 <a href="https://youtu.be/ogSSqXevKLI">
-<img src="https://github.com/h2non/videoshow/raw/master/test/fixtures/video.jpg" width="100%" align="center" />
+<img src="https://github.com/BZWayne/robotPatrol/blob/main/images/patrolrobot.jpg" width="80%" align="center" />
 </a>
 
 ## 1. Introduction 
