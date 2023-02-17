@@ -2,8 +2,6 @@
 
 ## [Video representation](https://youtu.be/ogSSqXevKLI) and [Documentation](https://bzwayne.github.io/index.html)
 
-Video Demonstration
-
 <a href="https://youtu.be/ogSSqXevKLI">
 <img src="https://github.com/h2non/videoshow/raw/master/test/fixtures/video.jpg" width="100%" align="center" />
 </a>
