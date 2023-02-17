@@ -41,7 +41,7 @@ Within the given setting, there are four distinct rooms labeled as R1, R2, R3, a
 
 #### Temporal Diagram
 
-
+![Employee data](https://github.com/BZWayne/robotPatrol/blob/main/images/temp_diagram.png)
 
 #### 1- Marker Publisher 
 [OpenCV](https://github.com/ros-perception/vision_opencv/tree/rolling/cv_bridge) is utilized for the image processing aspect of the task, employing the method presented in [aruco](https://github.com/CarmineD8/aruco_ros). To enable conversion between ROS Image messages and OpenCV images, the cv_bridge package is utilized.
@@ -50,8 +50,6 @@ Within the given setting, there are four distinct rooms labeled as R1, R2, R3, a
 This implementation provides a service that responds with information for each room in the semantic map. It does so by receiving a call request with an argument specifying the room ID.
 
 #### 3- State Machine:
-
-<img src="https://github.com/BZWayne/robotPatrol/blob/main/images/architecture.png" align="left" width="500"/>
 
 The [SMACH](http://wiki.ros.org/smach) state machine controls the robot's state based on the topological ontology map reasoning and the robot's battery status. The following are the robot's states:
 
