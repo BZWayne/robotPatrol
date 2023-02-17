@@ -96,6 +96,13 @@ My version of ROS is Noetic, but it should work for other versions too.
 $ sudo apt install ros-<distro>-gmapping
 ```
 
+* Install moveit:
+
+```bashscript
+$ sudo apt-get install ros-noetic-moveit
+$ sudo apt-get install ros-noetic-moveit-resources-prbt-moveit-config
+```
+
 * Install liboctomap (Optional, but I installed to handle some issues):
 
 ```bashscript
