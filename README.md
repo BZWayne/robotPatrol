@@ -96,6 +96,12 @@ My version of ROS is Noetic, but it should work for other versions too.
 $ sudo apt install ros-<distro>-gmapping
 ```
 
+* Install liboctomap (Optional, but I installed to handle some issues):
+
+```bashscript
+$ sudo apt-get install ros-noetic-octomap
+```
+
 * Install [OpenCV](https://github.com/ros-perception/vision_opencv/tree/rolling/cv_bridge):
 
 * Install konsule:
