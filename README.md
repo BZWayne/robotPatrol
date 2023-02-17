@@ -102,6 +102,7 @@ $ sudo apt install ros-<distro>-gmapping
 $ sudo apt-get install ros-noetic-moveit
 $ sudo apt-get install ros-noetic-rosparam-shortcuts ros-noetic-object-recognition-msgs ros-noetic-eigen-stl-containers
 $ sudo apt-get install ros-noetic-geometric-shapes ros-noetic-pybind11-catkin ros-noetic-ompl ros-noetic-warehouse-ros ros-noetic-eigenpy
+$ sudo apt-get install ros-noetic-eigenpy
 $ sudo apt-get install ros-noetic-moveit-resources-prbt-moveit-config
 ```
 
