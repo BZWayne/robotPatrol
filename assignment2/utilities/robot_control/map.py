@@ -22,7 +22,7 @@ from assignment2.msg import Point
 from armor_api.armor_client import ArmorClient
 
 ontology_path_ = "/../../ontology/"
-ontology_name_ = "topological_map.owl"
+ontology_name_ = "topological_map_new.owl"
 
 class MapOntology:
     """
@@ -91,6 +91,8 @@ class MapOntology:
             visit_time (string): The time of the last visit to the room
         """
         self.client.manipulation.add_dataprop_to_ind("visitedAt", room, "Int", visit_time)
+        self.client.utils.sync_buffered_reasoner()
+        self.client.utils.save_ref_with_inferences(self.path + "new_map.owl")
         self.client.utils.sync_buffered_reasoner()
 
     def add_robot(self):
@@ -254,21 +256,21 @@ class MapOntology:
         # Update robot time instance
         prev_time = self.cut_dataprop_list(self.client.query.dataprop_b2_ind("now", "Robot"))[0]
         self.client.manipulation.replace_dataprop_b2_ind("now", "Robot", "Int", str(now.secs), prev_time)
-        self.client.utils.sync_buffered_reasoner()
+
         # Update battery level
         prev_battery_level = self.cut_dataprop_list(self.client.query.dataprop_b2_ind("batteryLvl", "Robot"))[0]
         battery_level = str(self.get_battery_level())
         self.client.manipulation.replace_dataprop_b2_ind("batteryLvl", "Robot", "Int", battery_level, prev_battery_level)
-        self.client.utils.sync_buffered_reasoner()
+
         # Update robot location
         prev_loc = self.cut_objprop_list(self.client.query.objectprop_b2_ind("isIn", "Robot"))[0]
         loc = self.get_location()
         self.client.manipulation.replace_objectprop_b2_ind("isIn", "Robot", loc, prev_loc)
-        self.client.utils.sync_buffered_reasoner()
+
         #Update last visited time
         prev_time = self.cut_dataprop_list(self.client.query.dataprop_b2_ind("visitedAt", loc))[0]
         self.client.manipulation.replace_dataprop_b2_ind("visitedAt", loc, "Int", str(now.secs), prev_time)
-        self.client.utils.sync_buffered_reasoner()
+
         # Detect target room
         visitedAt_E = self.cut_dataprop_list(self.client.query.dataprop_b2_ind("visitedAt", "E"))[0]
         visitedAt_R1 = self.cut_dataprop_list(self.client.query.dataprop_b2_ind("visitedAt", "R1"))[0]
@@ -314,18 +316,6 @@ class MapOntology:
         self.client.utils.sync_buffered_reasoner()
         urgent_rooms = self.client.query.ind_b2_class("URGENT")
 
-        # Log updated information
-        log_msg = 'Ontology Updated...'
-        rospy.loginfo(anm.tag_log(log_msg, self.log_tag))
-        log_msg = 'battery level: ' + self.cut_dataprop_list(self.client.query.dataprop_b2_ind("batteryLvl", "Robot"))[0]
-        rospy.loginfo(anm.tag_log(log_msg, self.log_tag))
-        log_msg = 'current location: ' + loc
-        rospy.loginfo(anm.tag_log(log_msg, self.log_tag))
-        log_msg = 'urgent locations: ' 
-        rospy.loginfo(anm.tag_log(log_msg, self.log_tag))
-        for i in range(0,len(urgent_rooms)):
-            log_msg = urgent_rooms[i]
-            rospy.loginfo(anm.tag_log(log_msg, self.log_tag))
         
         # Define priority for target room
         battery_threshold = self.cut_dataprop_list(self.client.query.dataprop_b2_ind("batteryThreshold", "Robot"))[0]

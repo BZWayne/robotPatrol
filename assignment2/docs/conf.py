@@ -46,8 +46,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 highlight_language = 'c++'
 source_suffix = '.rst'
 master_doc = 'index'
-
-html_theme = 'classic'
+html_theme = 'sphinx_rtd_theme'
 
 html_static_path = ['_static']
 

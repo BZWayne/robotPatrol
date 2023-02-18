@@ -1,0 +1,713 @@
+<?xml version='1.0'?>
+<TriX xmlns='http://www.w3.org/2004/03/trix/trix-1/'>
+	<graph>
+		<triple>
+			<id>genid1</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#Ontology</uri>
+		</triple>
+		<!--  -->
+		<!--  -->
+		<!-- ################################################################# -->
+		<!-- # -->
+		<!-- #    Object Properties -->
+		<!-- # -->
+		<!-- ################################################################# -->
+		<!--  -->
+		<!--  -->
+		<!--  #hasDoor -->
+		<!--  -->
+		<!--  #isIn -->
+		<!--  -->
+		<!--  -->
+		<!--  -->
+		<!-- ################################################################# -->
+		<!-- # -->
+		<!-- #    Data properties -->
+		<!-- # -->
+		<!-- ################################################################# -->
+		<!--  -->
+		<!--  -->
+		<!--  #batteryLvl -->
+		<!--  -->
+		<!--  #batteryThreshold -->
+		<!--  -->
+		<!--  #now -->
+		<!--  -->
+		<!--  #urgencyThreshold -->
+		<!--  -->
+		<!--  #visitedAt -->
+		<!--  -->
+		<!--  -->
+		<!--  -->
+		<!-- ################################################################# -->
+		<!-- # -->
+		<!-- #    Classes -->
+		<!-- # -->
+		<!-- ################################################################# -->
+		<!--  -->
+		<!--  -->
+		<!--  #DOOR -->
+		<!--  -->
+		<!--  #ROBOT -->
+		<!--  -->
+		<!--  #ROOM -->
+		<!--  -->
+		<!--  -->
+		<!--  -->
+		<!-- ################################################################# -->
+		<!-- # -->
+		<!-- #    Individuals -->
+		<!-- # -->
+		<!-- ################################################################# -->
+		<!--  -->
+		<!--  -->
+		<!--  #C1 -->
+		<!--  -->
+		<!--  #C2 -->
+		<!--  -->
+		<!--  #D -->
+		<!--  -->
+		<!--  #D1 -->
+		<!--  -->
+		<!--  #D2 -->
+		<!--  -->
+		<!--  #D3 -->
+		<!--  -->
+		<!--  #D4 -->
+		<!--  -->
+		<!--  #D5 -->
+		<!--  -->
+		<!--  #D6 -->
+		<!--  -->
+		<!--  #D7 -->
+		<!--  -->
+		<!--  #E -->
+		<!--  -->
+		<!--  #R1 -->
+		<!--  -->
+		<!--  #R2 -->
+		<!--  -->
+		<!--  #R3 -->
+		<!--  -->
+		<!--  #R4 -->
+		<!--  -->
+		<!--  #Robot -->
+		<!--  -->
+		<!--  #1 -->
+		<!--  -->
+		<!--  #2 -->
+		<!--  -->
+		<!--  #3 -->
+		<!--  -->
+		<!--  #4 -->
+		<!--  -->
+		<!--  #5 -->
+		<!--  -->
+		<!--  #6 -->
+		<!--  -->
+		<!--  #7 -->
+		<!--  -->
+		<!--  -->
+		<!--  -->
+		<!-- ################################################################# -->
+		<!-- # -->
+		<!-- #    General axioms -->
+		<!-- # -->
+		<!-- ################################################################# -->
+		<!--  -->
+		<!--  -->
+		<triple>
+			<id>genid2</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid2</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid9</id>
+		</triple>
+		<triple>
+			<id>genid9</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid9</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid8</id>
+		</triple>
+		<triple>
+			<id>genid8</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid8</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid7</id>
+		</triple>
+		<triple>
+			<id>genid7</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid7</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid6</id>
+		</triple>
+		<triple>
+			<id>genid6</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid6</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid5</id>
+		</triple>
+		<triple>
+			<id>genid5</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid5</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid4</id>
+		</triple>
+		<triple>
+			<id>genid4</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid4</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid3</id>
+		</triple>
+		<triple>
+			<id>genid3</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid3</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid10</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid10</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid16</id>
+		</triple>
+		<triple>
+			<id>genid16</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid16</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid15</id>
+		</triple>
+		<triple>
+			<id>genid15</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid15</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid14</id>
+		</triple>
+		<triple>
+			<id>genid14</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid14</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid13</id>
+		</triple>
+		<triple>
+			<id>genid13</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid13</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid12</id>
+		</triple>
+		<triple>
+			<id>genid12</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid12</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid11</id>
+		</triple>
+		<triple>
+			<id>genid11</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid11</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid17</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid17</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid21</id>
+		</triple>
+		<triple>
+			<id>genid21</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid21</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid20</id>
+		</triple>
+		<triple>
+			<id>genid20</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid20</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid19</id>
+		</triple>
+		<triple>
+			<id>genid19</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid19</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid18</id>
+		</triple>
+		<triple>
+			<id>genid18</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid18</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid22</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid22</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid27</id>
+		</triple>
+		<triple>
+			<id>genid27</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid27</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid26</id>
+		</triple>
+		<triple>
+			<id>genid26</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid26</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid25</id>
+		</triple>
+		<triple>
+			<id>genid25</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid25</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid24</id>
+		</triple>
+		<triple>
+			<id>genid24</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid24</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid23</id>
+		</triple>
+		<triple>
+			<id>genid23</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid23</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid28</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid28</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid30</id>
+		</triple>
+		<triple>
+			<id>genid30</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid30</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid29</id>
+		</triple>
+		<triple>
+			<id>genid29</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid29</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid31</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid31</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid34</id>
+		</triple>
+		<triple>
+			<id>genid34</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid34</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid33</id>
+		</triple>
+		<triple>
+			<id>genid33</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid33</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid32</id>
+		</triple>
+		<triple>
+			<id>genid32</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid32</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid35</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid35</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid42</id>
+		</triple>
+		<triple>
+			<id>genid42</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid42</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid41</id>
+		</triple>
+		<triple>
+			<id>genid41</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid41</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid40</id>
+		</triple>
+		<triple>
+			<id>genid40</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid40</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid39</id>
+		</triple>
+		<triple>
+			<id>genid39</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid39</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid38</id>
+		</triple>
+		<triple>
+			<id>genid38</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid38</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid37</id>
+		</triple>
+		<triple>
+			<id>genid37</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid37</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid36</id>
+		</triple>
+		<triple>
+			<id>genid36</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid36</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid43</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid43</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid49</id>
+		</triple>
+		<triple>
+			<id>genid49</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid49</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid48</id>
+		</triple>
+		<triple>
+			<id>genid48</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid48</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid47</id>
+		</triple>
+		<triple>
+			<id>genid47</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid47</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid46</id>
+		</triple>
+		<triple>
+			<id>genid46</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid46</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid45</id>
+		</triple>
+		<triple>
+			<id>genid45</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid45</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid44</id>
+		</triple>
+		<triple>
+			<id>genid44</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid44</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid50</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid50</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid51</id>
+		</triple>
+		<triple>
+			<id>genid51</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid51</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid52</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid52</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid57</id>
+		</triple>
+		<triple>
+			<id>genid57</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid57</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid56</id>
+		</triple>
+		<triple>
+			<id>genid56</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid56</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid55</id>
+		</triple>
+		<triple>
+			<id>genid55</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid55</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid54</id>
+		</triple>
+		<triple>
+			<id>genid54</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid54</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<id>genid53</id>
+		</triple>
+		<triple>
+			<id>genid53</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid53</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<triple>
+			<id>genid58</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/2002/07/owl#AllDifferent</uri>
+		</triple>
+		<triple>
+			<id>genid58</id>
+			<uri>http://www.w3.org/2002/07/owl#distinctMembers</uri>
+			<id>genid59</id>
+		</triple>
+		<triple>
+			<id>genid59</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#List</uri>
+		</triple>
+		<triple>
+			<id>genid59</id>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</uri>
+			<uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#nil</uri>
+		</triple>
+		<!--  -->
+		<!-- Generated by the OWL API (version 5.0.5.20170104-0800) https://github.com/owlcs/owlapi/ -->
+	</graph>
+</TriX>

@@ -105,6 +105,7 @@ def getImageId(data):
 
         ontology.disjoint_individuals()
         ontology.add_last_visit_time(room_info.room, str(room_info.visit_time))
+        
 
 def movingPose(data):
     """

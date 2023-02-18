@@ -1,646 +1,48 @@
-
 <!DOCTYPE html>
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to robotPatrol’s documentation! &#8212; robotPatrol 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
-    
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to robotPatrol’s documentation! &mdash; robotPatrol 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">robotPatrol 1.0 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Welcome to robotPatrol’s documentation!</a></li> 
-      </ul>
-    </div>  
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="welcome-to-robotpatrol-s-documentation">
-<h1>Welcome to robotPatrol’s documentation!<a class="headerlink" href="#welcome-to-robotpatrol-s-documentation" title="Permalink to this heading">¶</a></h1>
-<div class="toctree-wrapper compound">
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            robotPatrol
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
-</div>
-<div class="section" id="module-src.fsm">
-<span id="fsm-module"></span><h1>Fsm Module<a class="headerlink" href="#module-src.fsm" title="Permalink to this heading">¶</a></h1>
-<span class="target" id="module-fsm"></span><dl class="simple">
-<dt>Subscribes to:</dt><dd><p>/image_id</p>
-</dd>
-<dt>Uses Service:</dt><dd><p>/state/set_battery_level
-/state/get_pose
-/state/set_base_movement_state
-/room_info
-/move_arm</p>
-</dd>
-<dt>Uses Action:</dt><dd><p>/move_base</p>
-</dd>
-<dt>Uses helper script:</dt><dd><p>/utilities/robot_control/map.py</p>
-</dd>
-</dl>
-<p>The finite state machine’s initial state involves building a semantic map of
-the environment using image IDs of markers detected by the robot camera.
-This node updates the ontology using the map.py helper script
-and retrieves the target room based on the last visit times and the robot’s
-battery state. In the next state, the robot moves to the target room, and if
-the battery level drops below a threshold, the robot goes to the charger to recharge.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="src.fsm.Charging">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">Charging</span></span><a class="reference internal" href="_modules/src/fsm.html#Charging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.Charging" title="Permalink to this definition">¶</a></dt>
-<dd><p>The state is called Charging() and it activates the robot has reached the charging station and
-recharges the battery. The battery level is updated using the set_battery_level(battery_level)
-function after a certain period of time has elapsed. The state then transitions to charged.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.fsm.Charging.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#Charging.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.Charging.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Executes Charging() state</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="src.fsm.DiscoverRoom">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">DiscoverRoom</span></span><a class="reference internal" href="_modules/src/fsm.html#DiscoverRoom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.DiscoverRoom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the state where the robot has arrived at the target room and begins to explore it.
-The robot arm’s movement is enabled just like in the initial state using the setArmMotion(data)
-function, and then it returns discovered.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.fsm.DiscoverRoom.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#DiscoverRoom.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.DiscoverRoom.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Executes DiscoverRoom() state</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="src.fsm.LoadMap">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">LoadMap</span></span><a class="reference internal" href="_modules/src/fsm.html#LoadMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.LoadMap" title="Permalink to this definition">¶</a></dt>
-<dd><p>The initial state is defined as building a semantic map for the robot. The arm of the robot is set to move along
-desired trajectories as defined in the robotik.cpp file using the setArmMotion(data) function. If sufficient room
-IDs are detected, the state will exit and return the status of map_loaded.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.fsm.LoadMap.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#LoadMap.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.LoadMap.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Execute the LoadMap() state</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="src.fsm.MovingCorridor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">MovingCorridor</span></span><a class="reference internal" href="_modules/src/fsm.html#MovingCorridor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.MovingCorridor" title="Permalink to this definition">¶</a></dt>
-<dd><p>The state where the robot moves to a desired location is defined in this code.
-First, the function set_base_movement_state(base_movement_state) is used to enable battery
-consumption. Then, the robot moves to the target room with the help of the function
-movingPose(pose). As the robot moves to its destination, the ontology is updated with
-the function update_ontology(now). When the robot reaches its target room, the state is
-exited and the function returns reached. If the battery level drops below the threshold,
-the function returns battery_low and the target room is cancelled.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.fsm.MovingCorridor.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#MovingCorridor.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.MovingCorridor.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Excecute MovintCorridor() state</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="src.fsm.MovingForBattery">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">MovingForBattery</span></span><a class="reference internal" href="_modules/src/fsm.html#MovingForBattery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.MovingForBattery" title="Permalink to this definition">¶</a></dt>
-<dd><p>The state when the battery is low and the robot needs to recharge is defined.
-The function set_base_movement_state(movement_state) is used to enable battery
-consumption, and the robot moves towards the charger using the movingPose(pose)
-function. The ontology is updated during the movement to the charger using the
-update_ontology(now) function until the robot reaches the charger.”</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.fsm.MovingForBattery.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#MovingForBattery.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.MovingForBattery.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Executes MovingForBattery() state</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.base_data">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">base_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#base_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.base_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Service client function for /state/set_base_movement_state. Modifies the robot’s base movement
-state stored in the robot-states node.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.battery_data">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">battery_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#battery_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.battery_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates the battery level of the robot by using the /state/battery_data service.
-The current level of the robot’s battery is stored in the robot-state node.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.getConfirmation">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">getConfirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#getConfirmation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.getConfirmation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if the robot has arrived at a specific point by calculating the Euclidean distance
-between the robot’s current pose and the target pose.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>target_pose</strong> (<em>Point</em>) – The desired location for the robot to reach.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Indicates whether or not the robot has arrived at the target pose.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>reached (Bool)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.getImageId">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">getImageId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#getImageId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.getImageId" title="Permalink to this definition">¶</a></dt>
-<dd><p>The callback function for the subscriber of the /image_id topic checks if the image id detected
-is valuable and has not already been recorded. If so, it saves the information for each room by
-calling the function getRoomId(room_id) and modifies the ontology using functions from the helper
-script map.py such as add_room(room), add_door(door), assign_doors_to_room(room, doors),
-disjoint_individuals(), and add_last_visit_time(room, visit_time). The argument data is an
-integer that represents the image id.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.getRoomId">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">getRoomId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#getRoomId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.getRoomId" title="Permalink to this definition">¶</a></dt>
-<dd><p>The client for the marker_server retrieves information for a specific room using the room_info service.
-The argument room_id is an integer that is used to identify the room. The function returns a response
-in the form of resp (RoomInformationResponse).”</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.getRoomLocation">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">getRoomLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#getRoomLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.getRoomLocation" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function detects the center position of a specific room by using the room information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>room</strong> (<em>string</em>) – the name of the room to detect the center position of</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the center position of the specified room</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>room_pose (Point)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.main">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>The main function for the finite_state_machine node initializes the node and takes an instance of the
-MapOntology class at the current time. It defines a subscriber for the /image_id topic and outlines the
-states and transitions for the finite state machine’s topological map. Finally, it starts the finite state machine process.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.movingPose">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">movingPose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#movingPose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.movingPose" title="Permalink to this definition">¶</a></dt>
-<dd><p>The function serves as an action client for the “move_base” node. It takes a pose as an argument
-and sends it in the form of “MoveBaseGoal.msg” to the action server. The function returns the
-result in the form of “MoveBaseResult.msg”.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.fsm.setArmMotion">
-<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">setArmMotion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#setArmMotion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.setArmMotion" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates the arm movement state of the robot through the service client for /move_arm
-stored in the robotik node.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-src.robot_states">
-<span id="robot-state-module"></span><h1>Robot_State Module<a class="headerlink" href="#module-src.robot_states" title="Permalink to this heading">¶</a></h1>
-<span class="target" id="module-robot_states"></span><dl class="simple">
-<dt>Subscribes to :</dt><dd><p>/odom</p>
-</dd>
-<dt>Uses Service:</dt><dd><p>/state/set_battery_level
-/state/get_battery_level
-/state/get_pose
-/state/set_base_movement_state
-/state/get_base_movement_state</p>
-</dd>
-</dl>
-<p>Robot states is the script where the robot condition will be identified such as battery level, base movement, odometry information,
-its pose information.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="src.robot_states.RobotState">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.robot_states.</span></span><span class="sig-name descname"><span class="pre">RobotState</span></span><a class="reference internal" href="_modules/src/robot_states.html#RobotState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initializes the “robot-states” node to provide crucial information about the robot’s current
-state, such as its pose, battery level, and base movement state.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="src.robot_states.RobotState.get_base_movement_state">
-<span class="sig-name descname"><span class="pre">get_base_movement_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.get_base_movement_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.get_base_movement_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>The implementation of the state/get_base_movement_state service. The request parameter provided by the client is empty
-and is not used. The response returned to the client includes the current state of the robot’s base movement.
-:param request:
-:type request: GetBaseMovementStateRequest</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>response (GetBaseMovementStateResponse)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.robot_states.RobotState.get_battery_level">
-<span class="sig-name descname"><span class="pre">get_battery_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.get_battery_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.get_battery_level" title="Permalink to this definition">¶</a></dt>
-<dd><p>The implementation of the state/get_battery_level service. The input parameter of
-the request is empty, as provided by the client. The response returned to the client
-includes the current battery level of the robot.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>request</strong> (<em>GetBatteryLevelRequest</em>) – </p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>response (GetBatteryLevelResponse).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.robot_states.RobotState.get_pose">
-<span class="sig-name descname"><span class="pre">get_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.get_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.get_pose" title="Permalink to this definition">¶</a></dt>
-<dd><p>The implementation of the /state/get_pose service. The input parameter, request,
-from the client is not used. The response returned to the client contains the current
-robot pose. The argument request is of type GetPoseRequest. The returned value is of
-type GetPoseResponse.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.robot_states.RobotState.odom_callback">
-<span class="sig-name descname"><span class="pre">odom_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.odom_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.odom_callback" title="Permalink to this definition">¶</a></dt>
-<dd><p>Callback function for the /odom topic subscriber that updates the robot’s current pose in the robot-states node.
-The argument for this function is the data of type nav_msgs.msg.Odometry.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.robot_states.RobotState.set_base_movement_state">
-<span class="sig-name descname"><span class="pre">set_base_movement_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.set_base_movement_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.set_base_movement_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <cite>state/set_base_movement_state</cite> service implementation.
-The <cite>request</cite> input parameter is the current robot base movement state to be set,
-as given by the client. This server returns an empty <cite>response</cite>.
-Arg:</p>
-<blockquote>
-<div><p>request(SetBaseMovementStateRequest)</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.robot_states.RobotState.set_battery_level">
-<span class="sig-name descname"><span class="pre">set_battery_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.set_battery_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.set_battery_level" title="Permalink to this definition">¶</a></dt>
-<dd><p>The implementation of the state/set_battery_level service.
-The input parameter request is the current battery level of the robot to be set,
-which is provided by the client. The server returns an empty response.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-utilities.robot_control.map">
-<span id="map-module"></span><h1>Map Module<a class="headerlink" href="#module-utilities.robot_control.map" title="Permalink to this heading">¶</a></h1>
-<span class="target" id="module-map"></span><dl class="simple">
-<dt>Uses Service:</dt><dd><p>/state/get_battery
-/state/get_pose</p>
-</dd>
-</dl>
-<p>Map is established utilizing the methods from the
-ArmorClient and the incomplete Ontology file,
-topological_map.owl, which only holds class definitions.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utilities.robot_control.map.</span></span><span class="sig-name descname"><span class="pre">MapOntology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Topological Map class is used for implementing the topological map.
-When an instance of the class is created, it loads the topological_map.owl
-ontology file using the loading method from the ArmorClient script.
-The class then attempts to complete the ontology by adding rooms, doors,
-and robot individuals, defining their disjointness, pre-setting their
-last visit times, and positioning the robot in room “E” through calling
-relevant functions that utilize the methods from ArmorClient.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.add_door">
-<span class="sig-name descname"><span class="pre">add_door</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">door</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.add_door"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.add_door" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds door to the topological map using <code class="docutils literal notranslate"><span class="pre">armor_client</span></code>
-add individual to class method and finaly syncs the reasoner</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.add_last_visit_time">
-<span class="sig-name descname"><span class="pre">add_last_visit_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visit_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.add_last_visit_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.add_last_visit_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the last visit time for a specified room using the armor_client method to add data to an individual and syncs the reasoner.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>room</strong> (<em>string</em>) – The name of the room</p></li>
-<li><p><strong>visit_time</strong> (<em>string</em>) – The time of the last visit to the room</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.add_robot">
-<span class="sig-name descname"><span class="pre">add_robot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.add_robot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.add_robot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initializes the robot’s position in room “E”, sets its starting time instance and battery level,
-and establishes its urgency and battery threshold using the add data and object to individual
-methods in the armor_client. The reasoner is then synced to reflect these updates.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.add_room">
-<span class="sig-name descname"><span class="pre">add_room</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.add_room"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.add_room" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds room to the topological map using <code class="docutils literal notranslate"><span class="pre">armor_client</span></code></p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.assign_doors_to_room">
-<span class="sig-name descname"><span class="pre">assign_doors_to_room</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.assign_doors_to_room"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.assign_doors_to_room" title="Permalink to this definition">¶</a></dt>
-<dd><p>Links the rooms to their respective doors through the <code class="docutils literal notranslate"><span class="pre">armor_client</span></code> add object to individual method
-and syncs the reasoner after completion.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>room</strong> (<em>string</em>) – The name of the room.</p></li>
-<li><p><strong>doors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em> of </em><em>strings</em>) – The names of the doors associated with the room.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.cut_dataprop">
-<span class="sig-name descname"><span class="pre">cut_dataprop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.cut_dataprop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.cut_dataprop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extracts the object property from a string received from armor.
-:param data_prop:
-:type data_prop: string</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.cut_dataprop_list">
-<span class="sig-name descname"><span class="pre">cut_dataprop_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_prop_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.cut_dataprop_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.cut_dataprop_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extracts the object property from a list of strings received from armor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>obj_prop_list</strong> (<em>string</em><em>[</em><em>]</em>) – A list of strings that contain object properties</p></li>
-<li><p><strong>data_prop_list</strong> (<em>string</em><em>[</em><em>]</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of extracted object properties</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[string]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.cut_objprop">
-<span class="sig-name descname"><span class="pre">cut_objprop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.cut_objprop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.cut_objprop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extracts the object property from a string received from armor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>obj_prop</strong> (<em>string</em>) – </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.cut_objprop_list">
-<span class="sig-name descname"><span class="pre">cut_objprop_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_prop_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.cut_objprop_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.cut_objprop_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extracts the object properties from a list of strings received from armor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>obj_prop_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – The list of strings to extract object properties from.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>The list of extracted object properties.</p>
-<dl class="field-list simple">
-<dt class="field-odd">param obj_prop_list</dt>
-<dd class="field-odd"><p></p></dd>
-<dt class="field-even">type obj_prop_list</dt>
-<dd class="field-even"><p>string[]</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.disjoint_individuals">
-<span class="sig-name descname"><span class="pre">disjoint_individuals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.disjoint_individuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.disjoint_individuals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Disjoints every individual in each class using <code class="docutils literal notranslate"><span class="pre">armor_client</span></code> disjoint
-individuals of class method and finally syncs the reasoner</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.get_battery_level">
-<span class="sig-name descname"><span class="pre">get_battery_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.get_battery_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.get_battery_level" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the current robot battery level by the <code class="docutils literal notranslate"><span class="pre">state/battery_level</span></code> server of the
-<code class="docutils literal notranslate"><span class="pre">robot-state</span></code> node.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>battery_level(int)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.get_location">
-<span class="sig-name descname"><span class="pre">get_location</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.get_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.get_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines the current location of the robot by calling the <cite>get_pose()</cite> function
-and comparing the resulting pose to the defined room coordinates.
-:returns: The name of the room the robot is in.
-:rtype: location (string)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.get_pose">
-<span class="sig-name descname"><span class="pre">get_pose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.get_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.get_pose" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Retrieve the current robot pose by calling the ‘state/get_pose’ service of the</dt><dd><p>‘robot-state’ node.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>pose (Point)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.update_ontology">
-<span class="sig-name descname"><span class="pre">update_ontology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">now</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.update_ontology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.update_ontology" title="Permalink to this definition">¶</a></dt>
-<dd><p>The function in the finite_state_machine node takes the current time instance as an argument.
-It determines the robot’s current location using the determine_location() function and the
-robot’s current battery level using the get_robot_battery_level() function. It updates this
-information in the ontology. The function then determines the room that has not been visited
-for the longest time and sets it as the target room. If the last visit times require it, the
-function updates the list of urgent rooms in the ontology. Finally, it returns the target room
-and whether the battery level is low. If the battery level is sufficient, the target room will
-be the room with the longest gap in visits. If the battery level is too low, the target room
-will be room “E”.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>now</strong> (<em>float32</em>) – </p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>target_room (string)
-battery_low (bool)</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="marker-service">
-<h1>Marker Service<a class="headerlink" href="#marker-service" title="Permalink to this heading">¶</a></h1>
-<p>This node implements a service to provide information of each room id. </p>
-<p><p>Services:</p>
-<p>/room_info</p>
-</p>
-<p>Description:</p>
-<p>This node implements a service: it requires the id (marker) detected by the robot and it replies with the information about the corresponding room (name of the room, coordinates of the center, connections with other rooms) </p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv414markerCallbackRN11assignment215RoomInformation7RequestERN11assignment215RoomInformation8ResponseE">
-<span id="_CPPv314markerCallbackRN11assignment215RoomInformation7RequestERN11assignment215RoomInformation8ResponseE"></span><span id="_CPPv214markerCallbackRN11assignment215RoomInformation7RequestERN11assignment215RoomInformation8ResponseE"></span><span id="markerCallback__assignment2::RoomInformation::RequestR.assignment2::RoomInformation::ResponseR"></span><span class="target" id="marker__server_8cpp_1acb386145eddd7e35588ea2b3a5ec6ca5"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">markerCallback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">assignment2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">RoomInformation</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Request</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">req</span></span>, <span class="n"><span class="pre">assignment2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">RoomInformation</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Response</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">res</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414markerCallbackRN11assignment215RoomInformation7RequestERN11assignment215RoomInformation8ResponseE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Callback function for <code class="docutils literal notranslate"><span class="pre">room_info</span></code> service. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>req</strong> – </p></li>
-<li><p><strong>res</strong> – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>true </p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>false </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv44mainiPPc">
-<span id="_CPPv34mainiPPc"></span><span id="_CPPv24mainiPPc"></span><span id="main__i.cPP"></span><span class="target" id="marker__server_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">main</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">argc</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">argv</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv44mainiPPc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>main function for <code class="docutils literal notranslate"><span class="pre">marker_server</span></code> node </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>argc</strong> – </p></li>
-<li><p><strong>argv</strong> – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>int </p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="controller-service">
-<h1>Controller Service<a class="headerlink" href="#controller-service" title="Permalink to this heading">¶</a></h1>
-<p>Controller node of the robot arm using moveit. </p>
-<p><p>Services:</p>
-<p>/move_arm</p>
-</p>
-<p>Description:</p>
-<p>There are 7 points of the markers where robot needs to reach. </p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv45reachRN8std_srvs7SetBool7RequestERN8std_srvs7SetBool8ResponseE">
-<span id="_CPPv35reachRN8std_srvs7SetBool7RequestERN8std_srvs7SetBool8ResponseE"></span><span id="_CPPv25reachRN8std_srvs7SetBool7RequestERN8std_srvs7SetBool8ResponseE"></span><span id="reach__std_srvs::SetBool::RequestR.std_srvs::SetBool::ResponseR"></span><span class="target" id="robotik_8cpp_1a770a685d6c627a46682560e4ff7c2078"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reach</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std_srvs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SetBool</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Request</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">req</span></span>, <span class="n"><span class="pre">std_srvs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SetBool</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Response</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">resp</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv45reachRN8std_srvs7SetBool7RequestERN8std_srvs7SetBool8ResponseE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Function uses provided methods from <code class="docutils literal notranslate"><span class="pre">moveit</span></code> package for loading robot model, its kinematic and joints group. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>req</strong> – </p></li>
-<li><p><strong>resp</strong> – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>true </p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>false </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp">
-<span class="target" id="robotik_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">main</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">argc</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">argv</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>main function for <code class="docutils literal notranslate"><span class="pre">robotik</span></code> node </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>argc</strong> – </p></li>
-<li><p><strong>argv</strong> – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>int </p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-</div>
-
-
-            <div class="clearer"></div>
-          </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <div>
-    <h3><a href="#">Table of Contents</a></h3>
-    <ul>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Welcome to robotPatrol’s documentation!</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 <li><a class="reference internal" href="#module-src.fsm">Fsm Module</a><ul>
@@ -710,45 +112,649 @@ battery_low (bool)</p>
 <li><a class="reference internal" href="#marker-service">Marker Service</a></li>
 <li><a class="reference internal" href="#controller-service">Controller Service</a></li>
 </ul>
-
-  </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
 </div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">robotPatrol 1.0 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Welcome to robotPatrol’s documentation!</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2023, Bauyrzhan Zhakanov.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
-    </div>
-  </body>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">robotPatrol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to robotPatrol’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="welcome-to-robotpatrol-s-documentation">
+<h1>Welcome to robotPatrol’s documentation!<a class="headerlink" href="#welcome-to-robotpatrol-s-documentation" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="module-src.fsm">
+<span id="fsm-module"></span><h1>Fsm Module<a class="headerlink" href="#module-src.fsm" title="Permalink to this heading"></a></h1>
+<span class="target" id="module-fsm"></span><dl class="simple">
+<dt>Subscribes to:</dt><dd><p>/image_id</p>
+</dd>
+<dt>Uses Service:</dt><dd><p>/state/set_battery_level
+/state/get_pose
+/state/set_base_movement_state
+/room_info
+/move_arm</p>
+</dd>
+<dt>Uses Action:</dt><dd><p>/move_base</p>
+</dd>
+<dt>Uses helper script:</dt><dd><p>/utilities/robot_control/map.py</p>
+</dd>
+</dl>
+<p>The finite state machine’s initial state involves building a semantic map of
+the environment using image IDs of markers detected by the robot camera.
+This node updates the ontology using the map.py helper script
+and retrieves the target room based on the last visit times and the robot’s
+battery state. In the next state, the robot moves to the target room, and if
+the battery level drops below a threshold, the robot goes to the charger to recharge.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.fsm.Charging">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">Charging</span></span><a class="reference internal" href="_modules/src/fsm.html#Charging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.Charging" title="Permalink to this definition"></a></dt>
+<dd><p>The state is called Charging() and it activates the robot has reached the charging station and
+recharges the battery. The battery level is updated using the set_battery_level(battery_level)
+function after a certain period of time has elapsed. The state then transitions to charged.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fsm.Charging.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#Charging.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.Charging.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Executes Charging() state</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.fsm.DiscoverRoom">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">DiscoverRoom</span></span><a class="reference internal" href="_modules/src/fsm.html#DiscoverRoom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.DiscoverRoom" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the state where the robot has arrived at the target room and begins to explore it.
+The robot arm’s movement is enabled just like in the initial state using the setArmMotion(data)
+function, and then it returns discovered.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fsm.DiscoverRoom.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#DiscoverRoom.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.DiscoverRoom.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Executes DiscoverRoom() state</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.fsm.LoadMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">LoadMap</span></span><a class="reference internal" href="_modules/src/fsm.html#LoadMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.LoadMap" title="Permalink to this definition"></a></dt>
+<dd><p>The initial state is defined as building a semantic map for the robot. The arm of the robot is set to move along
+desired trajectories as defined in the robotik.cpp file using the setArmMotion(data) function. If sufficient room
+IDs are detected, the state will exit and return the status of map_loaded.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fsm.LoadMap.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#LoadMap.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.LoadMap.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Execute the LoadMap() state</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.fsm.MovingCorridor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">MovingCorridor</span></span><a class="reference internal" href="_modules/src/fsm.html#MovingCorridor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.MovingCorridor" title="Permalink to this definition"></a></dt>
+<dd><p>The state where the robot moves to a desired location is defined in this code.
+First, the function set_base_movement_state(base_movement_state) is used to enable battery
+consumption. Then, the robot moves to the target room with the help of the function
+movingPose(pose). As the robot moves to its destination, the ontology is updated with
+the function update_ontology(now). When the robot reaches its target room, the state is
+exited and the function returns reached. If the battery level drops below the threshold,
+the function returns battery_low and the target room is cancelled.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fsm.MovingCorridor.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#MovingCorridor.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.MovingCorridor.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Excecute MovintCorridor() state</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.fsm.MovingForBattery">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">MovingForBattery</span></span><a class="reference internal" href="_modules/src/fsm.html#MovingForBattery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.MovingForBattery" title="Permalink to this definition"></a></dt>
+<dd><p>The state when the battery is low and the robot needs to recharge is defined.
+The function set_base_movement_state(movement_state) is used to enable battery
+consumption, and the robot moves towards the charger using the movingPose(pose)
+function. The ontology is updated during the movement to the charger using the
+update_ontology(now) function until the robot reaches the charger.”</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fsm.MovingForBattery.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#MovingForBattery.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.MovingForBattery.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Executes MovingForBattery() state</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.base_data">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">base_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#base_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.base_data" title="Permalink to this definition"></a></dt>
+<dd><p>Service client function for /state/set_base_movement_state. Modifies the robot’s base movement
+state stored in the robot-states node.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.battery_data">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">battery_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#battery_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.battery_data" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the battery level of the robot by using the /state/battery_data service.
+The current level of the robot’s battery is stored in the robot-state node.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.getConfirmation">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">getConfirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#getConfirmation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.getConfirmation" title="Permalink to this definition"></a></dt>
+<dd><p>Determines if the robot has arrived at a specific point by calculating the Euclidean distance
+between the robot’s current pose and the target pose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>target_pose</strong> (<em>Point</em>) – The desired location for the robot to reach.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Indicates whether or not the robot has arrived at the target pose.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>reached (Bool)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.getImageId">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">getImageId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#getImageId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.getImageId" title="Permalink to this definition"></a></dt>
+<dd><p>The callback function for the subscriber of the /image_id topic checks if the image id detected
+is valuable and has not already been recorded. If so, it saves the information for each room by
+calling the function getRoomId(room_id) and modifies the ontology using functions from the helper
+script map.py such as add_room(room), add_door(door), assign_doors_to_room(room, doors),
+disjoint_individuals(), and add_last_visit_time(room, visit_time). The argument data is an
+integer that represents the image id.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.getRoomId">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">getRoomId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#getRoomId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.getRoomId" title="Permalink to this definition"></a></dt>
+<dd><p>The client for the marker_server retrieves information for a specific room using the room_info service.
+The argument room_id is an integer that is used to identify the room. The function returns a response
+in the form of resp (RoomInformationResponse).”</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.getRoomLocation">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">getRoomLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#getRoomLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.getRoomLocation" title="Permalink to this definition"></a></dt>
+<dd><p>This function detects the center position of a specific room by using the room information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>room</strong> (<em>string</em>) – the name of the room to detect the center position of</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the center position of the specified room</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>room_pose (Point)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.main">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.main" title="Permalink to this definition"></a></dt>
+<dd><p>The main function for the finite_state_machine node initializes the node and takes an instance of the
+MapOntology class at the current time. It defines a subscriber for the /image_id topic and outlines the
+states and transitions for the finite state machine’s topological map. Finally, it starts the finite state machine process.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.movingPose">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">movingPose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#movingPose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.movingPose" title="Permalink to this definition"></a></dt>
+<dd><p>The function serves as an action client for the “move_base” node. It takes a pose as an argument
+and sends it in the form of “MoveBaseGoal.msg” to the action server. The function returns the
+result in the form of “MoveBaseResult.msg”.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.fsm.setArmMotion">
+<span class="sig-prename descclassname"><span class="pre">src.fsm.</span></span><span class="sig-name descname"><span class="pre">setArmMotion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/fsm.html#setArmMotion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fsm.setArmMotion" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the arm movement state of the robot through the service client for /move_arm
+stored in the robotik node.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-src.robot_states">
+<span id="robot-state-module"></span><h1>Robot_State Module<a class="headerlink" href="#module-src.robot_states" title="Permalink to this heading"></a></h1>
+<span class="target" id="module-robot_states"></span><dl class="simple">
+<dt>Subscribes to :</dt><dd><p>/odom</p>
+</dd>
+<dt>Uses Service:</dt><dd><p>/state/set_battery_level
+/state/get_battery_level
+/state/get_pose
+/state/set_base_movement_state
+/state/get_base_movement_state</p>
+</dd>
+</dl>
+<p>Robot states is the script where the robot condition will be identified such as battery level, base movement, odometry information,
+its pose information.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.robot_states.RobotState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.robot_states.</span></span><span class="sig-name descname"><span class="pre">RobotState</span></span><a class="reference internal" href="_modules/src/robot_states.html#RobotState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes the “robot-states” node to provide crucial information about the robot’s current
+state, such as its pose, battery level, and base movement state.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.robot_states.RobotState.get_base_movement_state">
+<span class="sig-name descname"><span class="pre">get_base_movement_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.get_base_movement_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.get_base_movement_state" title="Permalink to this definition"></a></dt>
+<dd><p>The implementation of the state/get_base_movement_state service. The request parameter provided by the client is empty
+and is not used. The response returned to the client includes the current state of the robot’s base movement.
+:param request:
+:type request: GetBaseMovementStateRequest</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>response (GetBaseMovementStateResponse)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.robot_states.RobotState.get_battery_level">
+<span class="sig-name descname"><span class="pre">get_battery_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.get_battery_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.get_battery_level" title="Permalink to this definition"></a></dt>
+<dd><p>The implementation of the state/get_battery_level service. The input parameter of
+the request is empty, as provided by the client. The response returned to the client
+includes the current battery level of the robot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>GetBatteryLevelRequest</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>response (GetBatteryLevelResponse).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.robot_states.RobotState.get_pose">
+<span class="sig-name descname"><span class="pre">get_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.get_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.get_pose" title="Permalink to this definition"></a></dt>
+<dd><p>The implementation of the /state/get_pose service. The input parameter, request,
+from the client is not used. The response returned to the client contains the current
+robot pose. The argument request is of type GetPoseRequest. The returned value is of
+type GetPoseResponse.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.robot_states.RobotState.odom_callback">
+<span class="sig-name descname"><span class="pre">odom_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.odom_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.odom_callback" title="Permalink to this definition"></a></dt>
+<dd><p>Callback function for the /odom topic subscriber that updates the robot’s current pose in the robot-states node.
+The argument for this function is the data of type nav_msgs.msg.Odometry.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.robot_states.RobotState.set_base_movement_state">
+<span class="sig-name descname"><span class="pre">set_base_movement_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.set_base_movement_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.set_base_movement_state" title="Permalink to this definition"></a></dt>
+<dd><p>The <cite>state/set_base_movement_state</cite> service implementation.
+The <cite>request</cite> input parameter is the current robot base movement state to be set,
+as given by the client. This server returns an empty <cite>response</cite>.
+Arg:</p>
+<blockquote>
+<div><p>request(SetBaseMovementStateRequest)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.robot_states.RobotState.set_battery_level">
+<span class="sig-name descname"><span class="pre">set_battery_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/robot_states.html#RobotState.set_battery_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.robot_states.RobotState.set_battery_level" title="Permalink to this definition"></a></dt>
+<dd><p>The implementation of the state/set_battery_level service.
+The input parameter request is the current battery level of the robot to be set,
+which is provided by the client. The server returns an empty response.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-utilities.robot_control.map">
+<span id="map-module"></span><h1>Map Module<a class="headerlink" href="#module-utilities.robot_control.map" title="Permalink to this heading"></a></h1>
+<span class="target" id="module-map"></span><dl class="simple">
+<dt>Uses Service:</dt><dd><p>/state/get_battery
+/state/get_pose</p>
+</dd>
+</dl>
+<p>Map is established utilizing the methods from the
+ArmorClient and the incomplete Ontology file,
+topological_map.owl, which only holds class definitions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utilities.robot_control.map.</span></span><span class="sig-name descname"><span class="pre">MapOntology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology" title="Permalink to this definition"></a></dt>
+<dd><p>The Topological Map class is used for implementing the topological map.
+When an instance of the class is created, it loads the topological_map.owl
+ontology file using the loading method from the ArmorClient script.
+The class then attempts to complete the ontology by adding rooms, doors,
+and robot individuals, defining their disjointness, pre-setting their
+last visit times, and positioning the robot in room “E” through calling
+relevant functions that utilize the methods from ArmorClient.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.add_door">
+<span class="sig-name descname"><span class="pre">add_door</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">door</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.add_door"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.add_door" title="Permalink to this definition"></a></dt>
+<dd><p>Adds door to the topological map using <code class="docutils literal notranslate"><span class="pre">armor_client</span></code>
+add individual to class method and finaly syncs the reasoner</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.add_last_visit_time">
+<span class="sig-name descname"><span class="pre">add_last_visit_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visit_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.add_last_visit_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.add_last_visit_time" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the last visit time for a specified room using the armor_client method to add data to an individual and syncs the reasoner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>room</strong> (<em>string</em>) – The name of the room</p></li>
+<li><p><strong>visit_time</strong> (<em>string</em>) – The time of the last visit to the room</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.add_robot">
+<span class="sig-name descname"><span class="pre">add_robot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.add_robot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.add_robot" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes the robot’s position in room “E”, sets its starting time instance and battery level,
+and establishes its urgency and battery threshold using the add data and object to individual
+methods in the armor_client. The reasoner is then synced to reflect these updates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.add_room">
+<span class="sig-name descname"><span class="pre">add_room</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.add_room"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.add_room" title="Permalink to this definition"></a></dt>
+<dd><p>Adds room to the topological map using <code class="docutils literal notranslate"><span class="pre">armor_client</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.assign_doors_to_room">
+<span class="sig-name descname"><span class="pre">assign_doors_to_room</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.assign_doors_to_room"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.assign_doors_to_room" title="Permalink to this definition"></a></dt>
+<dd><p>Links the rooms to their respective doors through the <code class="docutils literal notranslate"><span class="pre">armor_client</span></code> add object to individual method
+and syncs the reasoner after completion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>room</strong> (<em>string</em>) – The name of the room.</p></li>
+<li><p><strong>doors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em> of </em><em>strings</em>) – The names of the doors associated with the room.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.cut_dataprop">
+<span class="sig-name descname"><span class="pre">cut_dataprop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.cut_dataprop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.cut_dataprop" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts the object property from a string received from armor.
+:param data_prop:
+:type data_prop: string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.cut_dataprop_list">
+<span class="sig-name descname"><span class="pre">cut_dataprop_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_prop_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.cut_dataprop_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.cut_dataprop_list" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts the object property from a list of strings received from armor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj_prop_list</strong> (<em>string</em><em>[</em><em>]</em>) – A list of strings that contain object properties</p></li>
+<li><p><strong>data_prop_list</strong> (<em>string</em><em>[</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of extracted object properties</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[string]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.cut_objprop">
+<span class="sig-name descname"><span class="pre">cut_objprop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.cut_objprop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.cut_objprop" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts the object property from a string received from armor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj_prop</strong> (<em>string</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.cut_objprop_list">
+<span class="sig-name descname"><span class="pre">cut_objprop_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_prop_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.cut_objprop_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.cut_objprop_list" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts the object properties from a list of strings received from armor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj_prop_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – The list of strings to extract object properties from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>The list of extracted object properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">param obj_prop_list</dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">type obj_prop_list</dt>
+<dd class="field-even"><p>string[]</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.disjoint_individuals">
+<span class="sig-name descname"><span class="pre">disjoint_individuals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.disjoint_individuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.disjoint_individuals" title="Permalink to this definition"></a></dt>
+<dd><p>Disjoints every individual in each class using <code class="docutils literal notranslate"><span class="pre">armor_client</span></code> disjoint
+individuals of class method and finally syncs the reasoner</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.get_battery_level">
+<span class="sig-name descname"><span class="pre">get_battery_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.get_battery_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.get_battery_level" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve the current robot battery level by the <code class="docutils literal notranslate"><span class="pre">state/battery_level</span></code> server of the
+<code class="docutils literal notranslate"><span class="pre">robot-state</span></code> node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>battery_level(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.get_location">
+<span class="sig-name descname"><span class="pre">get_location</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.get_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.get_location" title="Permalink to this definition"></a></dt>
+<dd><p>Determines the current location of the robot by calling the <cite>get_pose()</cite> function
+and comparing the resulting pose to the defined room coordinates.
+:returns: The name of the room the robot is in.
+:rtype: location (string)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.get_pose">
+<span class="sig-name descname"><span class="pre">get_pose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.get_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.get_pose" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieve the current robot pose by calling the ‘state/get_pose’ service of the</dt><dd><p>‘robot-state’ node.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>pose (Point)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.robot_control.map.MapOntology.update_ontology">
+<span class="sig-name descname"><span class="pre">update_ontology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">now</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/robot_control/map.html#MapOntology.update_ontology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.robot_control.map.MapOntology.update_ontology" title="Permalink to this definition"></a></dt>
+<dd><p>The function in the finite_state_machine node takes the current time instance as an argument.
+It determines the robot’s current location using the determine_location() function and the
+robot’s current battery level using the get_robot_battery_level() function. It updates this
+information in the ontology. The function then determines the room that has not been visited
+for the longest time and sets it as the target room. If the last visit times require it, the
+function updates the list of urgent rooms in the ontology. Finally, it returns the target room
+and whether the battery level is low. If the battery level is sufficient, the target room will
+be the room with the longest gap in visits. If the battery level is too low, the target room
+will be room “E”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>now</strong> (<em>float32</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>target_room (string)
+battery_low (bool)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="marker-service">
+<h1>Marker Service<a class="headerlink" href="#marker-service" title="Permalink to this heading"></a></h1>
+<p>This node implements a service to provide information of each room id. </p>
+<p><p>Services:</p>
+<p>/room_info</p>
+</p>
+<p>Description:</p>
+<p>This node implements a service: it requires the id (marker) detected by the robot and it replies with the information about the corresponding room (name of the room, coordinates of the center, connections with other rooms) </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv414markerCallbackRN11assignment215RoomInformation7RequestERN11assignment215RoomInformation8ResponseE">
+<span id="_CPPv314markerCallbackRN11assignment215RoomInformation7RequestERN11assignment215RoomInformation8ResponseE"></span><span id="_CPPv214markerCallbackRN11assignment215RoomInformation7RequestERN11assignment215RoomInformation8ResponseE"></span><span id="markerCallback__assignment2::RoomInformation::RequestR.assignment2::RoomInformation::ResponseR"></span><span class="target" id="marker__server_8cpp_1acb386145eddd7e35588ea2b3a5ec6ca5"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">markerCallback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">assignment2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">RoomInformation</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Request</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">req</span></span>, <span class="n"><span class="pre">assignment2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">RoomInformation</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Response</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">res</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414markerCallbackRN11assignment215RoomInformation7RequestERN11assignment215RoomInformation8ResponseE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Callback function for <code class="docutils literal notranslate"><span class="pre">room_info</span></code> service. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>req</strong> – </p></li>
+<li><p><strong>res</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true </p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>false </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv44mainiPPc">
+<span id="_CPPv34mainiPPc"></span><span id="_CPPv24mainiPPc"></span><span id="main__i.cPP"></span><span class="target" id="marker__server_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">main</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">argc</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">argv</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv44mainiPPc" title="Permalink to this definition"></a><br /></dt>
+<dd><p>main function for <code class="docutils literal notranslate"><span class="pre">marker_server</span></code> node </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>argc</strong> – </p></li>
+<li><p><strong>argv</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>int </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="controller-service">
+<h1>Controller Service<a class="headerlink" href="#controller-service" title="Permalink to this heading"></a></h1>
+<p>Controller node of the robot arm using moveit. </p>
+<p><p>Services:</p>
+<p>/move_arm</p>
+</p>
+<p>Description:</p>
+<p>There are 7 points of the markers where robot needs to reach. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv45reachRN8std_srvs7SetBool7RequestERN8std_srvs7SetBool8ResponseE">
+<span id="_CPPv35reachRN8std_srvs7SetBool7RequestERN8std_srvs7SetBool8ResponseE"></span><span id="_CPPv25reachRN8std_srvs7SetBool7RequestERN8std_srvs7SetBool8ResponseE"></span><span id="reach__std_srvs::SetBool::RequestR.std_srvs::SetBool::ResponseR"></span><span class="target" id="robotik_8cpp_1a770a685d6c627a46682560e4ff7c2078"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reach</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std_srvs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SetBool</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Request</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">req</span></span>, <span class="n"><span class="pre">std_srvs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SetBool</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Response</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">resp</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv45reachRN8std_srvs7SetBool7RequestERN8std_srvs7SetBool8ResponseE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Function uses provided methods from <code class="docutils literal notranslate"><span class="pre">moveit</span></code> package for loading robot model, its kinematic and joints group. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>req</strong> – </p></li>
+<li><p><strong>resp</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true </p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>false </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="robotik_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">main</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">argc</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">argv</span></span><span class="sig-paren">)</span><br /></dt>
+<dd><p>main function for <code class="docutils literal notranslate"><span class="pre">robotik</span></code> node </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>argc</strong> – </p></li>
+<li><p><strong>argv</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>int </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Bauyrzhan Zhakanov.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>
